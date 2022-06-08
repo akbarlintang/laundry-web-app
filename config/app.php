@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Softon\SweetAlert\SweetAlertServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -230,6 +231,7 @@ return [
         
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
 
     ],
 

@@ -11,9 +11,16 @@
 @endsection
 
 @section('content')
+
   <h4 class="font-weight-bold py-3 mb-4">
     Pengaturan Akun
   </h4>
+
+  @foreach ($errors->all() as $error)
+    <div class="alert alert-danger" role="alert">
+      {{ $error }}
+    </div>
+  @endforeach
 
   <div class="row no-gutters row-bordered row-border-light">
     <div class="col-md-3 pt-0">
@@ -28,31 +35,31 @@
       <div class="tab-content">
         <div class="tab-pane fade active show" id="account-general">
           <div class="container">
-            <form method="POST" action="{{ route('pengaturan.general.update') }}"></form>
-            {{ csrf_field() }}
+            <form method="POST" action="{{ route('pengaturan.general.update') }}">
+              {{ csrf_field() }}
               <div class="form-group">
                 <label class="form-label">Username</label>
-                <input type="text" class="form-control mb-1" value="{{ auth()->user()->username }}">
+                <input type="text" name="username" class="form-control mb-1" value="{{ auth()->user()->username }}">
               </div>
               <div class="form-group">
                 <label class="form-label">Nama</label>
-                <input type="text" class="form-control" value="{{ auth()->user()->nama }}">
+                <input type="text" name="nama" class="form-control" value="{{ auth()->user()->nama }}">
               </div>
               <div class="form-group">
                 <label class="form-label">E-mail</label>
-                <input type="text" class="form-control mb-1" value="{{ auth()->user()->email }}">
+                <input type="text" name="email" class="form-control mb-1" value="{{ auth()->user()->email }}">
               </div>
               <div class="form-group">
                 <label class="form-label">Nomor HP</label>
-                <input type="text" class="form-control" value="{{ auth()->user()->no_hp }}">
+                <input type="text" name="no_hp" class="form-control" value="{{ auth()->user()->no_hp }}">
               </div>
               <div class="form-group">
                 <label class="form-label">Alamat</label>
-                <textarea class="form-control">{{ auth()->user()->alamat }}</textarea>
+                <textarea name="alamat" class="form-control">{{ auth()->user()->alamat }}</textarea>
               </div>
 
               <div class="text-right">
-                <button class="btn btn-success">Simpan</button>
+                <button type="submit" class="btn btn-success">Simpan</button>
               </div>
             </form>
           </div>
@@ -115,4 +122,15 @@
       </div>
     </div>
   </div>
+
+@endsection
+
+@section('custom-scripts')
+<script>
+  export default {
+        mounted() {
+            console.log('Component mounted.')
+        }
+    }
+</script>
 @endsection

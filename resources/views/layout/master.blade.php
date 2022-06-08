@@ -37,7 +37,11 @@
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  @yield('content')
+                  <div id="app">
+                    <example-component>
+                      @yield('content')
+                    </example-component>
+                  </div>
                 </div>
               </div>
             </div>
@@ -66,5 +70,7 @@
   <!-- end common js -->
 
   @stack('custom-scripts')
+  @include('sweetalert::cdn')
+  @include('sweetalert::view')
 </body>
 </html>
