@@ -5,6 +5,11 @@
   <div class="row w-100">
     <div class="col-lg-4 mx-auto">
       <div class="auto-form-wrapper">
+        @if (session()->has('errors'))
+          <div class="alert alert-danger">
+            {{ session('errors')->first('salah') }}
+          </div>
+        @endif
         <form method="POST" action="{{ route('login.custom') }}">
           {{ csrf_field() }}
           <div class="form-group">

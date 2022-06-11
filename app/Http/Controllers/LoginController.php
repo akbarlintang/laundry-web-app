@@ -24,11 +24,11 @@ class LoginController extends Controller
 
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
+            return redirect()->intended('admin/dashboard')
                         ->withSuccess('Signed in');
         }
 
-        return redirect("login")->withSuccess('Login details are not valid');
+        return redirect("admin/login")->withErrors(['salah'=>'Username atau password salah!']);
     }
 
     public function dashboard()
@@ -37,7 +37,7 @@ class LoginController extends Controller
             return view('dashboard');
         }
 
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin/login")->withErrors('You are not allowed to access');
     }
 
     public function logout() {

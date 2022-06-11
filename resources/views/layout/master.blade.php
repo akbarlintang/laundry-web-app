@@ -16,11 +16,19 @@
   {!! Html::style('assets/plugins/perfect-scrollbar/perfect-scrollbar.css') !!}
   <!-- end plugin css -->
 
+  {{-- Datatable --}}
+  {!! Html::style('assets/datatable/datatables.min.css') !!}
+  
+  {{-- Select2 --}}
+  {!! Html::style('assets/select2/css/select2.min.css') !!}
+
   @stack('plugin-styles')
 
   <!-- common css -->
   {!! Html::style('css/app.css') !!}
   <!-- end common css -->
+
+  {{-- {!! Html::style('assets/datatable/datatables.min.css') !!} --}}
 
   @stack('style')
 </head>
@@ -38,9 +46,7 @@
               <div class="card">
                 <div class="card-body">
                   <div id="app">
-                    <example-component>
                       @yield('content')
-                    </example-component>
                   </div>
                 </div>
               </div>
@@ -69,7 +75,13 @@
   {!! Html::script('assets/js/todolist.js') !!}
   <!-- end common js -->
 
-  @stack('custom-scripts')
+  {{-- Datatable --}}
+  {!! Html::script('assets/datatable/datatables.min.js') !!}
+
+  {{-- Select2 --}}
+  {!! Html::script('assets/select2/js/select2.min.js') !!}
+
+  @yield('custom-scripts')
   @include('sweetalert::cdn')
   @include('sweetalert::view')
 </body>

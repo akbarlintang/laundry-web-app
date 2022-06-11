@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Softon\SweetAlert\Facades\SWAL;
+use Illuminate\Support\Facades\Hash;
+use App\Rules\MatchOldPassword;
 use App\Karyawan;
 
 class AkunController extends Controller
@@ -21,7 +23,7 @@ class AkunController extends Controller
             'alamat' => 'required',
         ]);
 
-        $update = Karyawan::whereId(auth()->user()->id)->update([
+        Karyawan::whereId(auth()->user()->id)->update([
             'username' => $request->username,
             'nama' => $request->nama,
             'email' => $request->email,
@@ -29,11 +31,21 @@ class AkunController extends Controller
             'alamat' => $request->alamat,
         ]);
 
-        if ($update > 0) {
-            swal()->message('Data berhasil diperbarui','Perubahan pengaturan akun berhasil!','success');
-        } else {
-            swal()->message('Data gagal diperbarui','Perubahan pengaturan akun gagal!','danger');
-        }
+        swal()->message('Data berhasil diperbarui','Perubahan pengaturan akun berhasil!','success');
+
+        return redirect()->route('pengaturan.index');
+    }
+
+    public function passwordUpdate(Request $request) {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
+
+        Karyawan::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+
+        swal()->message('Berhasil','Password berhasil diubah!','success');
 
         return redirect()->route('pengaturan.index');
     }

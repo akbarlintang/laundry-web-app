@@ -67,18 +67,25 @@
 
         <div class="tab-pane fade" id="account-change-password">
           <div class="container">
-            <div class="form-group">
-              <label class="form-label">Password lama</label>
-              <input type="password" class="form-control">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Password baru</label>
-              <input type="password" class="form-control">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Ulangi password</label>
-              <input type="password" class="form-control">
-            </div>
+            <form method="POST" action="{{ route('pengaturan.password.update') }}">
+              {{ csrf_field() }}
+                <div class="form-group">
+                  <label class="form-label">Password lama</label>
+                  <input type="password" name="current_password" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Password baru</label>
+                  <input type="password" name="new_password" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Ulangi password</label>
+                  <input type="password" name="new_confirm_password" class="form-control">
+                </div>
+
+                <div class="text-right">
+                  <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
+            </form>
           </div>
         </div>
 

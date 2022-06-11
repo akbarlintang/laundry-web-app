@@ -11,9 +11,12 @@
 |
 */
 
-// Route::get('/','DashboardController@index');
+Route::get('/','DashboardController@index');
+Route::get('/dashboard','DashboardController@index');
 
 Route::group(['prefix' => 'admin'], function(){
+    Route::get('/','DashboardController@index');
+
     Route::get('login', 'LoginController@login')->name('admin.login');
     Route::post('custom-login', 'LoginController@customLogin')->name('login.custom');
     Route::get('logout', 'LoginController@logout')->name('admin.logout');
@@ -21,9 +24,26 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['middleware' => ['auth:web']], function(){
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
 
+        Route::group(['prefix' => 'master'], function(){
+            // Role
+            Route::get('/role', 'RoleController@index')->name('role.index');
+            Route::post('/role', 'RoleController@store')->name('role.store');
+            Route::post('/role/{id}', 'RoleController@update')->name('role.update');
+            Route::delete('/role/{id}', 'RoleController@delete')->name('role.delete');
+            Route::get('/role/datatable', 'RoleController@datatable')->name('role.datatable');
+
+            // Karyawan
+            Route::get('/karyawan', 'KaryawanController@index')->name('karyawan.index');
+            Route::post('/karyawan', 'KaryawanController@store')->name('karyawan.store');
+            Route::post('/karyawan/{id}', 'KaryawanController@update')->name('karyawan.update');
+            Route::delete('/karyawan/{id}', 'KaryawanController@delete')->name('karyawan.delete');
+            Route::get('/karyawan/datatable', 'KaryawanController@datatable')->name('karyawan.datatable');
+        });
+
         Route::group(['prefix' => 'akun'], function(){
             Route::get('/pengaturan', 'AkunController@index')->name('pengaturan.index');
             Route::post('/pengaturan/general', 'AkunController@generalUpdate')->name('pengaturan.general.update');
+            Route::post('/pengaturan/password', 'AkunController@passwordUpdate')->name('pengaturan.password.update');
         });
     });
 });

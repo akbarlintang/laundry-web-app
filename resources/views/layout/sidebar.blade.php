@@ -74,17 +74,35 @@
         </ul>
       </div>
     </li>
-    <li class="nav-item">
+    {{-- <li class="nav-item">
       <a class="nav-link" href="https://www.bootstrapdash.com/demo/star-laravel-free/documentation/documentation.html" target="_blank">
         <i class="menu-icon mdi mdi-file-outline"></i>
         <span class="menu-title">Documentation</span>
       </a>
+    </li> --}}
+
+    <li class="nav-item {{ active_class(['admin/master/*']) }}">
+      <a class="nav-link" data-toggle="collapse" href="#master" aria-expanded="{{ is_active_route(['master/*']) }}" aria-controls="akun">
+        <i class="menu-icon mdi mdi-lock-outline"></i>
+        <span class="menu-title">Master</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse {{ show_class(['admin/master/*']) }}" id="master">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item {{ active_class(['admin/master/role']) }}">
+            <a class="nav-link" href="{{ route('role.index') }}">Role</a>
+          </li>
+          <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
+            <a class="nav-link" href="{{ route('karyawan.index') }}">Karyawan</a>
+          </li>
+        </ul>
+      </div>
     </li>
 
 
-    <li class="nav-item {{ active_class(['akun/*']) }}">
+    <li class="nav-item {{ active_class(['admin/akun/*']) }}">
       <a class="nav-link" data-toggle="collapse" href="#akun" aria-expanded="{{ is_active_route(['akun/*']) }}" aria-controls="akun">
-        <i class="menu-icon mdi mdi-lock-outline"></i>
+        <i class="menu-icon mdi mdi-account-settings"></i>
         <span class="menu-title">Akun</span>
         <i class="menu-arrow"></i>
       </a>
