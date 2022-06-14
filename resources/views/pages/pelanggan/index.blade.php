@@ -4,8 +4,7 @@
   <nav aria-label="breadcrumb" class="bg-white">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-      <li class="breadcrumb-item"><a href="#">Master</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Role</li>
+      <li class="breadcrumb-item active" aria-current="page">Pelanggan</li>
     </ol>
   </nav>
 @endsection
@@ -14,7 +13,7 @@
   <div class="row">
     <div class="col-8">
       <h4 class="font-weight-bold py-3 mb-4">
-        Pengaturan Role
+        Daftar Pelanggan
       </h4>
     </div>
     <div class="col-4 text-right my-auto">
@@ -37,6 +36,8 @@
           <tr>
             <th class="text-center">No</th>
             <th class="text-center">Nama</th>
+            <th class="text-center">No. HP</th>
+            <th class="text-center">Alamat</th>
             <th class="text-center">Aksi</th>
           </tr>
         </thead>
@@ -49,7 +50,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Tambah Role</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Pelanggan</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -57,8 +58,16 @@
         <form @submit.prevent="store">
           <div class="modal-body">
               <div class="form-group">
-                <label for="role">Nama Role</label>
-                <input type="text" class="form-control" name="role" id="role" v-model="form.nama" placeholder="Masukkan nama role">
+                <label for="nama">Nama</label>
+                <input type="text" class="form-control" name="nama" id="nama" v-model="form.nama" placeholder="Masukkan nama pelanggan">
+              </div>
+              <div class="form-group">
+                <label for="no_hp">No. Handphone</label>
+                <input type="number" class="form-control" name="no_hp" id="no_hp" v-model="form.no_hp" placeholder="Masukkan nomor handphone pelanggan">
+              </div>
+              <div class="form-group">
+                <label for="role">Alamat</label>
+                <textarea name="alamat" id="alamat" v-model="form.alamat" class="form-control" rows="3" placeholder="Masukkan alamat pelanggan"></textarea>
               </div>
           </div>
           <div class="modal-footer">
@@ -107,6 +116,8 @@
       form: {
         id: '',
         nama: '',
+        no_hp: '',
+        alamat: ''
       },
     },
     mounted() {
@@ -122,13 +133,15 @@
           //   buttons: ['print', 'copyHtml5', 'csvHtml5', 'pdfHtml5', 'excelHtml5']
           // },
           ajax: {
-            url : "{{ route('role.datatable') }}",
+            url : "{{ route('pelanggan.datatable') }}",
             dataSrc: "data"
           },
           lengthMenu: [[10, 50, 100, 1000, -1], [10, 50, 100, 1000, "Semua"]],
           columns: [
             { data: 'DT_RowIndex', searchable: false, orderable: false, className: 'text-center' },
             { data: 'nama' },
+            { data: 'no_hp', className: 'text-center' },
+            { data: 'alamat' },
             { data: 'aksi' },
           ],
           "bDestroy": true
@@ -136,11 +149,8 @@
       },
       clear(){
         this.form.nama = '';
-        this.form.username = '';
-        this.form.email = '';
         this.form.no_hp = '';
         this.form.alamat = '';
-        this.form.role = '';
       },
       tambah(){
         this.clear();
@@ -156,7 +166,7 @@
         this.form.id = data.id;
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data role akan dihapus!",
+          text: "Data pelanggan akan dihapus!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
@@ -188,7 +198,7 @@
       store(){
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data role akan disimpan!",
+          text: "Data pelanggan akan disimpan!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
@@ -197,7 +207,7 @@
         }).then(function(result){
           if(result.value){
             $('#tambahModal').modal('hide');
-            axios.post("{{ route('role.store') }}", app.form)
+            axios.post("{{ route('pelanggan.store') }}", app.form)
             .then((response) => {
               swal({
                 type: 'success',
@@ -221,7 +231,7 @@
       update(id){
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data role akan diubah!",
+          text: "Data pelanggan akan diubah!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
@@ -230,7 +240,7 @@
         }).then(function(result){
           if(result.value){
             $('#editModal').modal('hide');
-            axios.post("{{ route('role.update', ':id') }}".replace(':id', app.form.id), app.form)
+            axios.post("{{ route('pelanggan.update', ':id') }}".replace(':id', app.form.id), app.form)
             .then((response) => {
               swal({
                 type: 'success',

@@ -32,7 +32,7 @@
 
   <div class="row no-gutters row-bordered row-border-light">
     <div class="table-responsive">
-      <table id="datatable" class="table table-hoverable table-bordered">
+      <table id="datatable" class="table table-hoverable table-bordered table-striped">
         <thead>
           <tr>
             <th class="text-center">No</th>
@@ -241,7 +241,7 @@
         this.form.id = data.id;
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data akan dihapus!",
+          text: "Data karyawan akan dihapus!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
@@ -273,7 +273,7 @@
       store(){
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data akan disimpan!",
+          text: "Data karyawan akan disimpan!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
@@ -307,7 +307,7 @@
       update(id){
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data akan diubah!",
+          text: "Data karyawan akan diubah!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',

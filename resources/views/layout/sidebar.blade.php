@@ -15,7 +15,7 @@
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
-    <li class="nav-item {{ active_class(['basic-ui/*']) }}">
+    {{-- <li class="nav-item {{ active_class(['basic-ui/*']) }}">
       <a class="nav-link" data-toggle="collapse" href="#basic-ui" aria-expanded="{{ is_active_route(['basic-ui/*']) }}" aria-controls="basic-ui">
         <i class="menu-icon mdi mdi-dna"></i>
         <span class="menu-title">Basic UI Elements</span>
@@ -34,27 +34,35 @@
           </li>
         </ul>
       </div>
-    </li>
+    </li> --}}
 
-    <li class="nav-item {{ active_class(['charts/chartjs']) }}">
+    {{-- <li class="nav-item {{ active_class(['charts/chartjs']) }}">
       <a class="nav-link" href="{{ url('/charts/chartjs') }}">
         <i class="menu-icon mdi mdi-chart-line"></i>
         <span class="menu-title">Charts</span>
       </a>
-    </li>
-    <li class="nav-item {{ active_class(['tables/basic-table']) }}">
-      <a class="nav-link" href="{{ url('/tables/basic-table') }}">
-        <i class="menu-icon mdi mdi-table-large"></i>
-        <span class="menu-title">Tables</span>
+    </li> --}}
+
+    <li class="nav-item {{ active_class(['admin/transaksi/*']) }}">
+      <a class="nav-link" href="{{ route('transaksi.index') }}">
+        <i class="menu-icon mdi mdi-shopping"></i>
+        <span class="menu-title">Transaksi</span>
       </a>
     </li>
-    <li class="nav-item {{ active_class(['icons/material']) }}">
+    <li class="nav-item {{ active_class(['admin/pelanggan']) }}">
+      <a class="nav-link" href="{{ route('pelanggan.index') }}">
+        <i class="menu-icon mdi mdi-account-box"></i>
+        <span class="menu-title">Pelanggan</span>
+      </a>
+    </li>
+
+    {{-- <li class="nav-item {{ active_class(['icons/material']) }}">
       <a class="nav-link" href="{{ url('/icons/material') }}">
         <i class="menu-icon mdi mdi-emoticon"></i>
         <span class="menu-title">Icons</span>
       </a>
-    </li>
-    <li class="nav-item {{ active_class(['user-pages/*']) }}">
+    </li> --}}
+    {{-- <li class="nav-item {{ active_class(['user-pages/*']) }}">
       <a class="nav-link" data-toggle="collapse" href="#user-pages" aria-expanded="{{ is_active_route(['user-pages/*']) }}" aria-controls="user-pages">
         <i class="menu-icon mdi mdi-lock-outline"></i>
         <span class="menu-title">User Pages</span>
@@ -73,7 +81,7 @@
           </li>
         </ul>
       </div>
-    </li>
+    </li> --}}
     {{-- <li class="nav-item">
       <a class="nav-link" href="https://www.bootstrapdash.com/demo/star-laravel-free/documentation/documentation.html" target="_blank">
         <i class="menu-icon mdi mdi-file-outline"></i>
@@ -94,6 +102,9 @@
           </li>
           <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
             <a class="nav-link" href="{{ route('karyawan.index') }}">Karyawan</a>
+          </li>
+          <li class="nav-item {{ active_class(['admin/master/paket']) }}">
+            <a class="nav-link" href="{{ route('paket.index') }}">Konfigurasi Paket</a>
           </li>
         </ul>
       </div>

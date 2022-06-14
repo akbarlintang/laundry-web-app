@@ -4,8 +4,7 @@
   <nav aria-label="breadcrumb" class="bg-white">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-      <li class="breadcrumb-item"><a href="#">Master</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Role</li>
+      <li class="breadcrumb-item active" aria-current="page">Transaksi</li>
     </ol>
   </nav>
 @endsection
@@ -14,11 +13,11 @@
   <div class="row">
     <div class="col-8">
       <h4 class="font-weight-bold py-3 mb-4">
-        Pengaturan Role
+        Daftar Transaksi
       </h4>
     </div>
     <div class="col-4 text-right my-auto">
-      <a href="javascript:;" onclick="app.tambah()" class="btn btn-md btn-primary" data-toggle="modal" data-target="#tambahModal">
+      <a href="{{ route('transaksi.tambah') }}" class="btn btn-md btn-primary">
         <i class="mdi mdi-plus"></i> Tambah
       </a>
     </div>
@@ -136,11 +135,8 @@
       },
       clear(){
         this.form.nama = '';
-        this.form.username = '';
-        this.form.email = '';
         this.form.no_hp = '';
         this.form.alamat = '';
-        this.form.role = '';
       },
       tambah(){
         this.clear();
@@ -156,7 +152,7 @@
         this.form.id = data.id;
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data role akan dihapus!",
+          text: "Data akan dihapus!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
@@ -188,7 +184,7 @@
       store(){
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data role akan disimpan!",
+          text: "Data akan disimpan!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
@@ -221,7 +217,7 @@
       update(id){
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data role akan diubah!",
+          text: "Data akan diubah!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',

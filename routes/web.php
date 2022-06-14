@@ -24,6 +24,21 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['middleware' => ['auth:web']], function(){
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
 
+        // Transaksi
+        Route::get('/transaksi', 'TransaksiController@index')->name('transaksi.index');
+        Route::post('/transaksi', 'TransaksiController@store')->name('transaksi.store');
+        Route::post('/transaksi/{id}', 'TransaksiController@update')->name('transaksi.update');
+        Route::delete('/transaksi/{id}', 'TransaksiController@delete')->name('transaksi.delete');
+        Route::get('/transaksi/tambah', 'TransaksiController@create')->name('transaksi.tambah');
+        Route::get('/transaksi/datatable', 'TransaksiController@datatable')->name('transaksi.datatable');
+
+        // Pelanggan
+        Route::get('/pelanggan', 'PelangganController@index')->name('pelanggan.index');
+        Route::post('/pelanggan', 'PelangganController@store')->name('pelanggan.store');
+        Route::post('/pelanggan/{id}', 'PelangganController@update')->name('pelanggan.update');
+        Route::delete('/pelanggan/{id}', 'PelangganController@delete')->name('pelanggan.delete');
+        Route::get('/pelanggan/datatable', 'PelangganController@datatable')->name('pelanggan.datatable');
+
         Route::group(['prefix' => 'master'], function(){
             // Role
             Route::get('/role', 'RoleController@index')->name('role.index');
@@ -38,6 +53,14 @@ Route::group(['prefix' => 'admin'], function(){
             Route::post('/karyawan/{id}', 'KaryawanController@update')->name('karyawan.update');
             Route::delete('/karyawan/{id}', 'KaryawanController@delete')->name('karyawan.delete');
             Route::get('/karyawan/datatable', 'KaryawanController@datatable')->name('karyawan.datatable');
+
+            // Paket
+            Route::get('/paket', 'PaketController@index')->name('paket.index');
+            Route::post('/paket', 'PaketController@store')->name('paket.store');
+            Route::post('/paket/{id}', 'PaketController@update')->name('paket.update');
+            Route::delete('/paket/{id}', 'PaketController@delete')->name('paket.delete');
+            Route::get('/paket/{id}', 'PaketController@get')->name('paket.get');
+            Route::get('/paket/datatable', 'PaketController@datatable')->name('paket.datatable');
         });
 
         Route::group(['prefix' => 'akun'], function(){

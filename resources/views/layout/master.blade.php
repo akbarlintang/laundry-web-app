@@ -16,6 +16,12 @@
   {!! Html::style('assets/plugins/perfect-scrollbar/perfect-scrollbar.css') !!}
   <!-- end plugin css -->
 
+  {{-- Jquery ui --}}
+  {!! Html::style('assets/jquery-ui-1.13.1/jquery-ui.min.css') !!}
+
+  {{-- Bootstrap datepicker --}}
+  {!! Html::style('assets/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') !!}
+
   {{-- Datatable --}}
   {!! Html::style('assets/datatable/datatables.min.css') !!}
   
@@ -74,6 +80,12 @@
   {!! Html::script('assets/js/settings.js') !!}
   {!! Html::script('assets/js/todolist.js') !!}
   <!-- end common js -->
+
+  {{-- Jquery ui --}}
+  {!! Html::script('assets/jquery-ui-1.13.1/jquery-ui.min.js') !!}
+
+  {{-- Bootstrap datepicker --}}
+  {!! Html::script('assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js') !!}
 
   {{-- Datatable --}}
   {!! Html::script('assets/datatable/datatables.min.js') !!}
