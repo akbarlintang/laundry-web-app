@@ -26,6 +26,22 @@ class PaketController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id) {
+        $request->validate([
+            'nama' => 'required',
+            'harga' => 'required',
+        ]);
+
+        Paket::whereId($id)->update([
+            'nama' => $request->nama,
+            'harga' => $request->harga,
+        ]);
+    }
+
+    public function delete(Request $request, $id) {
+        Paket::destroy($id);
+    }
+
     public function query($request) {
         $query = Paket::get();
         return $query;

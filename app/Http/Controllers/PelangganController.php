@@ -28,6 +28,24 @@ class PelangganController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id) {
+        $request->validate([
+            'nama' => 'required',
+            'no_hp' => 'numeric|required',
+            'alamat' => 'required',
+        ]);
+
+        Pelanggan::whereId($id)->update([
+            'nama' => $request->nama,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+        ]);
+    }
+
+    public function delete(Request $request, $id) {
+        Pelanggan::destroy($id);
+    }
+
     public function query($request) {
         $query = Pelanggan::get();
         return $query;

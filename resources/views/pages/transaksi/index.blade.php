@@ -34,8 +34,14 @@
       <table id="datatable" class="table table-hoverable table-bordered table-striped">
         <thead>
           <tr>
-            <th class="text-center">No</th>
-            <th class="text-center">Nama</th>
+            <th class="text-center">No. Invoice</th>
+            <th class="text-center">Pelanggan</th>
+            <th class="text-center">Tanggal Order</th>
+            <th class="text-center">Tanggal Selesai</th>
+            <th class="text-center">Paket</th>
+            <th class="text-center">Berat</th>
+            <th class="text-center">Total</th>
+            <th class="text-center">Status</th>
             <th class="text-center">Aksi</th>
           </tr>
         </thead>
@@ -121,14 +127,20 @@
           //   buttons: ['print', 'copyHtml5', 'csvHtml5', 'pdfHtml5', 'excelHtml5']
           // },
           ajax: {
-            url : "{{ route('role.datatable') }}",
+            url : "{{ route('transaksi.datatable') }}",
             dataSrc: "data"
           },
           lengthMenu: [[10, 50, 100, 1000, -1], [10, 50, 100, 1000, "Semua"]],
           columns: [
-            { data: 'DT_RowIndex', searchable: false, orderable: false, className: 'text-center' },
-            { data: 'nama' },
-            { data: 'aksi' },
+            { data: 'no_invoice', className: 'text-center' },
+            { data: 'pelanggan' },
+            { data: 'tgl_order', className: 'text-center' },
+            { data: 'tgl_selesai', className: 'text-center' },
+            { data: 'paket', className: 'text-center' },
+            { data: 'berat', className: 'text-center' },
+            { data: 'total', className: 'text-right' },
+            { data: 'status', className: 'text-center' },
+            { data: 'aksi', className: 'text-center' },
           ],
           "bDestroy": true
         });
@@ -160,7 +172,7 @@
           cancelButtonText: 'Tidak',
         }).then(function(result){
           if(result.value){
-            axios.delete("{{ route('role.delete', ':id') }}".replace(':id', app.form.id))
+            axios.delete("{{ route('transaksi.delete', ':id') }}".replace(':id', app.form.id))
             .then((response) => {
               swal({
                 type: 'success',

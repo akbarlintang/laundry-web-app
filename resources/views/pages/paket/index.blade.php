@@ -49,7 +49,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Tambah Pelanggan</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Paket</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -80,7 +80,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Role</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Edit Paket</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -88,8 +88,12 @@
         <form @submit.prevent="update">
           <div class="modal-body">
               <div class="form-group">
-                <label for="role">Nama Role</label>
-                <input type="text" class="form-control" name="role" id="role" v-model="form.nama" placeholder="Masukkan nama role" required>
+                <label for="nama">Nama</label>
+                <input type="text" class="form-control" name="nama" id="nama" v-model="form.nama" placeholder="Masukkan nama paket">
+              </div>
+              <div class="form-group">
+                <label for="harga">Harga per kg (Rp)</label>
+                <input type="number" class="form-control" name="harga" id="harga" v-model="form.harga" placeholder="Masukkan harga paket per kg">
               </div>
           </div>
           <div class="modal-footer">
@@ -153,6 +157,7 @@
         this.clear();
         this.form.id = data.id;
         this.form.nama = data.nama;
+        this.form.harga = data.harga;
         $('#editModal').modal('show');
       },
       delete(data){
@@ -167,7 +172,7 @@
           cancelButtonText: 'Tidak',
         }).then(function(result){
           if(result.value){
-            axios.delete("{{ route('role.delete', ':id') }}".replace(':id', app.form.id))
+            axios.delete("{{ route('paket.delete', ':id') }}".replace(':id', app.form.id))
             .then((response) => {
               swal({
                 type: 'success',

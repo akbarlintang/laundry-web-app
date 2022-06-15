@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('/transaksi/{id}', 'TransaksiController@update')->name('transaksi.update');
         Route::delete('/transaksi/{id}', 'TransaksiController@delete')->name('transaksi.delete');
         Route::get('/transaksi/tambah', 'TransaksiController@create')->name('transaksi.tambah');
+        Route::get('/transaksi/edit/{id}', 'TransaksiController@edit')->name('transaksi.edit');
         Route::get('/transaksi/datatable', 'TransaksiController@datatable')->name('transaksi.datatable');
 
         // Pelanggan
@@ -59,7 +60,7 @@ Route::group(['prefix' => 'admin'], function(){
             Route::post('/paket', 'PaketController@store')->name('paket.store');
             Route::post('/paket/{id}', 'PaketController@update')->name('paket.update');
             Route::delete('/paket/{id}', 'PaketController@delete')->name('paket.delete');
-            Route::get('/paket/{id}', 'PaketController@get')->name('paket.get');
+            Route::get('/paket/get/{id}', 'PaketController@get')->name('paket.get');
             Route::get('/paket/datatable', 'PaketController@datatable')->name('paket.datatable');
         });
 

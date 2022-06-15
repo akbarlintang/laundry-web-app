@@ -5,7 +5,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="#">Beranda</a></li>
       <li class="breadcrumb-item"><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Tambah</li>
+      <li class="breadcrumb-item active" aria-current="page">Edit</li>
     </ol>
   </nav>
 @endsection
@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-8">
       <h4 class="font-weight-bold py-3 mb-4">
-        Buat Transaksi
+        Edit Transaksi
       </h4>
     </div>
     {{-- <div class="col-4 text-right my-auto">
@@ -100,7 +100,9 @@
   const app = new Vue({
     el: '#app',
     data: {
+      transaksi: '',
       form: {
+        id: '',
         invoice: '',
         tgl_order: '',
         tgl_selesai: '',
@@ -118,9 +120,17 @@
       var date = today.getDate();
       var lastId = '{{ $last_id }}';
 
-      this.form.invoice = 'TRX/'+date+'/'+lastId;
-      this.form.tgl_order = "{{ date('d F Y') }}";
+      this.transaksi = @json($data);
+      this.form.id = this.transaksi.id;
+      this.form.invoice = this.transaksi.no_invoice;
+      this.form.tgl_order = this.transaksi.tgl_order;
+      this.form.tgl_selesai = this.transaksi.tgl_selesai;
+      this.form.pelanggan_id = this.transaksi.pelanggan_id;
+      this.form.paket_id = this.transaksi.paket_id;
+      this.form.berat = this.transaksi.berat;
+      this.form.total = this.transaksi.total;
 
+      $('#pelanggan_id').val(this.form.pelanggan_id);
       $('#pelanggan_id').select2({
         placeholder: "Pilih pelanggan",
         width: "100%",
@@ -128,6 +138,7 @@
         app.form.pelanggan_id = $('#pelanggan_id').val();
       });
 
+      $('#paket_id').val(this.form.paket_id);
       $('#paket_id').select2({
         placeholder: "Pilih paket",
         width: "100%",
@@ -136,6 +147,7 @@
       });
 
       $('#berat').on("input", function (e) {
+        app.getPaket();
         app.hitung();
       });
 
@@ -143,7 +155,6 @@
           todayBtn: "linked",
           clearBtn: true,
           format: "dd MM yyyy",
-          autoclose: true,
           todayHighlight: true
       }).on("change", function (e) { 
         app.form.tgl_selesai = $('#tgl_selesai').val();
@@ -167,7 +178,7 @@
       store(){
         swal({
           title: 'Apakah anda yakin?',
-          text: "Data transaksi baru akan disimpan!",
+          text: "Data transaksi baru akan diubah!",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
@@ -175,12 +186,12 @@
           cancelButtonText: 'Tidak',
         }).then(function(result){
           if(result.value){
-            axios.post("{{ route('transaksi.store') }}", app.form)
+            axios.post("{{ route('transaksi.update', ':id') }}".replace(':id', app.form.id), app.form)
             .then((response) => {
               swal({
                 type: 'success',
                 title: 'Sukses',
-                text: 'Data berhasil disimpan!',
+                text: 'Data berhasil diubah!',
               }).then(function(result){
                 if(result.value){
                   location.replace("{{ route('transaksi.index') }}");
@@ -191,7 +202,7 @@
               swal({
                 type: 'error',
                 title: 'Error',
-                text: 'Data gagal disimpan!',
+                text: 'Data gagal diubah!',
               })
             });
           }else if(result.dismiss == 'cancel'){

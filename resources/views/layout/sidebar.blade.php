@@ -43,19 +43,6 @@
       </a>
     </li> --}}
 
-    <li class="nav-item {{ active_class(['admin/transaksi/*']) }}">
-      <a class="nav-link" href="{{ route('transaksi.index') }}">
-        <i class="menu-icon mdi mdi-shopping"></i>
-        <span class="menu-title">Transaksi</span>
-      </a>
-    </li>
-    <li class="nav-item {{ active_class(['admin/pelanggan']) }}">
-      <a class="nav-link" href="{{ route('pelanggan.index') }}">
-        <i class="menu-icon mdi mdi-account-box"></i>
-        <span class="menu-title">Pelanggan</span>
-      </a>
-    </li>
-
     {{-- <li class="nav-item {{ active_class(['icons/material']) }}">
       <a class="nav-link" href="{{ url('/icons/material') }}">
         <i class="menu-icon mdi mdi-emoticon"></i>
@@ -88,6 +75,19 @@
         <span class="menu-title">Documentation</span>
       </a>
     </li> --}}
+
+    <li class="nav-item {{ active_class(['admin/transaksi', 'admin/transaksi/*']) }}">
+      <a class="nav-link" href="{{ route('transaksi.index') }}">
+        <i class="menu-icon mdi mdi-shopping"></i>
+        <span class="menu-title">Transaksi</span>
+      </a>
+    </li>
+    <li class="nav-item {{ active_class(['admin/pelanggan']) }}">
+      <a class="nav-link" href="{{ route('pelanggan.index') }}">
+        <i class="menu-icon mdi mdi-account-box"></i>
+        <span class="menu-title">Pelanggan</span>
+      </a>
+    </li>
 
     <li class="nav-item {{ active_class(['admin/master/*']) }}">
       <a class="nav-link" data-toggle="collapse" href="#master" aria-expanded="{{ is_active_route(['master/*']) }}" aria-controls="akun">
