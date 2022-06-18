@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\{Transaksi, HistoryTransaksi, Pelanggan, Paket};
+use App\{Transaksi, HistoryTransaksi, Pelanggan, Paket, Status};
 
 class TransaksiController extends Controller
 {
     public function index() {
         $transaksi = Transaksi::get();
-        return view('pages.transaksi.index', compact('transaksi'));
+        $status = Status::get();
+        return view('pages.transaksi.index', compact('transaksi', 'status'));
     }
 
     public function create() {
@@ -89,10 +90,21 @@ class TransaksiController extends Controller
         Transaksi::destroy($id);
     }
 
+    public function updateStatus(Request $request, $id) {
+        $request->validate([
+            'status' => 'required',
+        ]);
+
+        HistoryTransaksi::whereId($id)->create([
+            'transaksi_id' => $id,
+            'status_id' => $request->status,
+        ]);
+    }
+
     public function query($request) {
-        $query = Transaksi::get();
+        $query = Transaksi::all();
         foreach($query as $q){
-            $q->status = HistoryTransaksi::where('transaksi_id', $q->id)->orderBy('id', 'DESC')->first()->status;
+            $q->status = HistoryTransaksi::with('Status')->where('transaksi_id', $q->id)->orderBy('id', 'DESC')->first();
         }
         return $query;
     }
@@ -119,7 +131,7 @@ class TransaksiController extends Controller
             return "Rp ".number_format($item->total);
         })
         ->editColumn("status", function($item){
-            return "<div class='badge badge-success'>".$item->status."</div>";
+            return "<a href='javascript:;' onclick='app.status(".$item.")' class='btn btn-sm btn-success'>".$item->status->status->nama."</a>";
         })
         ->editColumn("aksi", function($item){
             return "<div class='text-center'>

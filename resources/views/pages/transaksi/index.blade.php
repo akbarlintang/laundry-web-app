@@ -102,6 +102,36 @@
     </div>
   </div>
   {{-- End edit modal --}}
+
+  {{-- Status modal --}}
+  <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ubah Status Pengerjaan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form @submit.prevent="updateStatus">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="role">Status Pengerjaan</label>
+              <select name="status" id="status" class="form-control custom-select" v-model="form.status" required>
+                <option value=""></option>
+                <option v-for="stts in statusList" :value="stts.id">@{{ stts.nama }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-success text-white">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{-- End status modal --}}
 @endsection
 
 @section('custom-scripts')
@@ -112,10 +142,13 @@
       form: {
         id: '',
         nama: '',
+        status: '',
       },
+      statusList: @json($status),
     },
     mounted() {
       this.datatable();
+      this.initStatusSelect();
     },
     methods: {
       datatable(){
@@ -145,20 +178,59 @@
           "bDestroy": true
         });
       },
+      initStatusSelect(){
+        $('#status').val(this.form.status);
+        $('#status').select2({
+          placeholder: "Pilih status pengerjaan",
+          width: "100%",
+        }).on("change", function (e) { 
+          app.form.status = $('#status').val();
+        });
+      },
       clear(){
         this.form.nama = '';
-        this.form.no_hp = '';
-        this.form.alamat = '';
+        this.form.status = '';
       },
-      tambah(){
-        this.clear();
-        $('#tambahModal').modal('show');
-      },
-      edit(data){
+      status(data){
+        // console.log(data.status);
         this.clear();
         this.form.id = data.id;
-        this.form.nama = data.nama;
-        $('#editModal').modal('show');
+        this.form.status = data.status.status.id;
+        this.initStatusSelect();
+        $('#statusModal').modal('show');
+      },
+      updateStatus(){
+        swal({
+          title: 'Apakah anda yakin?',
+          text: "Status pengerjaan akan diubah!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ff4444',
+          confirmButtonText: 'Ya',
+          cancelButtonText: 'Tidak',
+        }).then(function(result){
+          if(result.value){
+            $('#statusModal').modal('hide');
+            axios.post("{{ route('transaksi.updateStatus', ':id') }}".replace(':id', app.form.id), app.form)
+            .then((response) => {
+              swal({
+                type: 'success',
+                title: 'Sukses',
+                text: 'Status pengerjaan berhasil diubah!',
+              });
+              app.datatable();
+            })
+            .catch((e) => {
+              swal({
+                type: 'error',
+                title: 'Error',
+                text: 'Status pengerjaan gagal diubah!',
+              })
+            });
+          }else if(result.dismiss == 'cancel'){
+
+          }
+        });
       },
       delete(data){
         this.form.id = data.id;
@@ -193,72 +265,6 @@
           }
         });
       },
-      store(){
-        swal({
-          title: 'Apakah anda yakin?',
-          text: "Data akan disimpan!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#ff4444',
-          confirmButtonText: 'Ya',
-          cancelButtonText: 'Tidak',
-        }).then(function(result){
-          if(result.value){
-            $('#tambahModal').modal('hide');
-            axios.post("{{ route('role.store') }}", app.form)
-            .then((response) => {
-              swal({
-                type: 'success',
-                title: 'Sukses',
-                text: 'Data berhasil disimpan!',
-              });
-              app.datatable();
-            })
-            .catch((e) => {
-              swal({
-                type: 'error',
-                title: 'Error',
-                text: 'Data gagal disimpan!',
-              })
-            });
-          }else if(result.dismiss == 'cancel'){
-
-          }
-        });
-      },
-      update(id){
-        swal({
-          title: 'Apakah anda yakin?',
-          text: "Data akan diubah!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#ff4444',
-          confirmButtonText: 'Ya',
-          cancelButtonText: 'Tidak',
-        }).then(function(result){
-          if(result.value){
-            $('#editModal').modal('hide');
-            axios.post("{{ route('role.update', ':id') }}".replace(':id', app.form.id), app.form)
-            .then((response) => {
-              swal({
-                type: 'success',
-                title: 'Sukses',
-                text: 'Data berhasil diubah!',
-              });
-              app.datatable();
-            })
-            .catch((e) => {
-              swal({
-                type: 'error',
-                title: 'Error',
-                text: 'Data gagal diubah!',
-              })
-            });
-          }else if(result.dismiss == 'cancel'){
-
-          }
-        });
-      }
     }
   });
 </script>

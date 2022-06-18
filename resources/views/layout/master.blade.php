@@ -34,6 +34,9 @@
   {!! Html::style('css/app.css') !!}
   <!-- end common css -->
 
+  {{-- Toastr --}}
+  {!! Html::style('assets/toastr/toastr.min.css') !!}
+
   {{-- {!! Html::style('assets/datatable/datatables.min.css') !!} --}}
 
   @stack('style')
@@ -83,6 +86,9 @@
 
   {{-- Jquery ui --}}
   {!! Html::script('assets/jquery-ui-1.13.1/jquery-ui.min.js') !!}
+
+  {{-- Toastr --}}
+  {!! Html::script('assets/toastr/toastr.min.js') !!}
 
   {{-- Bootstrap datepicker --}}
   {!! Html::script('assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js') !!}

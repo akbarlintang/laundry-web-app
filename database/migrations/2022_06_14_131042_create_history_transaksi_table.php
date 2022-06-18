@@ -16,7 +16,7 @@ class CreateHistoryTransaksiTable extends Migration
         Schema::create('history_transaksis', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('transaksi_id');
-            $table->string('status');
+            $table->integer('status_id');
             $table->timestamps();
         });
     }

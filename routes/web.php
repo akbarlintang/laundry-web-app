@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/','DashboardController@index');
+Route::get('/','LandingPageController@cekNota');
+Route::get('/cek-nota','LandingPageController@cekNota');
+
 Route::get('/dashboard','DashboardController@index');
 
 Route::group(['prefix' => 'admin'], function(){
@@ -31,6 +33,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::delete('/transaksi/{id}', 'TransaksiController@delete')->name('transaksi.delete');
         Route::get('/transaksi/tambah', 'TransaksiController@create')->name('transaksi.tambah');
         Route::get('/transaksi/edit/{id}', 'TransaksiController@edit')->name('transaksi.edit');
+        Route::post('/transaksi/status/{id}', 'TransaksiController@updateStatus')->name('transaksi.updateStatus');
         Route::get('/transaksi/datatable', 'TransaksiController@datatable')->name('transaksi.datatable');
 
         // Pelanggan
@@ -41,6 +44,12 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/pelanggan/datatable', 'PelangganController@datatable')->name('pelanggan.datatable');
 
         Route::group(['prefix' => 'master'], function(){
+            // Pemasukan
+            Route::get('/pemasukan', 'PemasukanController@index')->name('pemasukan.index');
+            Route::post('/pemasukan/filter', 'PemasukanController@filter')->name('pemasukan.filter');
+            Route::get('/pemasukan/total', 'PemasukanController@total')->name('pemasukan.total');
+            Route::get('/pemasukan/datatable', 'PemasukanController@datatable')->name('pemasukan.datatable');
+
             // Role
             Route::get('/role', 'RoleController@index')->name('role.index');
             Route::post('/role', 'RoleController@store')->name('role.store');
@@ -62,6 +71,14 @@ Route::group(['prefix' => 'admin'], function(){
             Route::delete('/paket/{id}', 'PaketController@delete')->name('paket.delete');
             Route::get('/paket/get/{id}', 'PaketController@get')->name('paket.get');
             Route::get('/paket/datatable', 'PaketController@datatable')->name('paket.datatable');
+
+            // Status
+            Route::get('/status', 'StatusController@index')->name('status.index');
+            Route::post('/status', 'StatusController@store')->name('status.store');
+            Route::post('/status/{id}', 'StatusController@update')->name('status.update');
+            Route::delete('/status/{id}', 'StatusController@delete')->name('status.delete');
+            Route::get('/status/get/{id}', 'StatusController@get')->name('status.get');
+            Route::get('/status/datatable', 'StatusController@datatable')->name('status.datatable');
         });
 
         Route::group(['prefix' => 'akun'], function(){
