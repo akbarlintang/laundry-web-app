@@ -1,0 +1,50 @@
+.font-weight-bold{
+  font-weight: bold;
+}
+
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+.step {
+  position: relative;
+  min-height: 32px /* circle-size */ ;
+}
+
+.step > div:first-child {
+  position: static;
+  height: 0;
+}
+
+.step > div:last-child {
+  margin-left: 32px ;
+  padding-left: 16px;
+}
+
+.circle {
+  background: #4154f1;
+  width: 24px;
+  height: 24px;
+  line-height: 32px;
+  border-radius: 16px;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+
+.line {
+  position: absolute;
+  border-left: 1px solid gainsboro;
+  left: 11px;
+  bottom: 10px;
+  top: 28px;
+}
+
+.step:last-child .line {
+  display: none;
+}
+
+.title {
+  line-height: 32px;
+  font-weight: bold;
+}

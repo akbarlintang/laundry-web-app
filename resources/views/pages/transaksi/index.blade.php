@@ -48,61 +48,7 @@
       </table>
     </div>
   </div>
-
-  {{-- Tambah modal --}}
-  <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Tambah Role</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form @submit.prevent="store">
-          <div class="modal-body">
-              <div class="form-group">
-                <label for="role">Nama Role</label>
-                <input type="text" class="form-control" name="role" id="role" v-model="form.nama" placeholder="Masukkan nama role">
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn btn-success text-white">Simpan</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  {{-- End tambah modal --}}
-
-  {{-- Edit modal --}}
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Role</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form @submit.prevent="update">
-          <div class="modal-body">
-              <div class="form-group">
-                <label for="role">Nama Role</label>
-                <input type="text" class="form-control" name="role" id="role" v-model="form.nama" placeholder="Masukkan nama role" required>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn btn-success text-white">Simpan</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  {{-- End edit modal --}}
-
+  
   {{-- Status modal --}}
   <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

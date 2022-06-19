@@ -4,12 +4,13 @@
       <div class="nav-link">
         <div class="user-wrapper">
           <div class="text-wrapper">
-            <h4 class="profile-name">Milla Laundry Logo</h4>
+            {{-- <h4 class="profile-name">Milla Laundry Logo</h4> --}}
+            <img src="{{ asset('assets/landing/img/milla-laundry-logo.png') }}" class="w-75" alt="logo">
           </div>
         </div>
       </div>
     </li>
-    <li class="nav-item {{ active_class(['/']) }}">
+    <li class="nav-item {{ active_class(['admin/dashboard']) }}">
       <a class="nav-link" href="{{ route('dashboard.index') }}">
         <i class="menu-icon mdi mdi-television"></i>
         <span class="menu-title">Dashboard</span>
@@ -115,6 +116,9 @@
           </li>
           <li class="nav-item {{ active_class(['admin/master/status']) }}">
             <a class="nav-link" href="{{ route('status.index') }}">Status</a>
+          </li>
+          <li class="nav-item {{ active_class(['admin/master/config']) }}">
+            <a class="nav-link" href="{{ route('config.index') }}">Landing Page</a>
           </li>
         </ul>
       </div>

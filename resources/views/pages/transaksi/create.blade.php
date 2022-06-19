@@ -44,7 +44,7 @@
           <div class="col-sm-9 input-group">
             <input type="text" class="form-control" name="tgl_order" id="tgl_order" v-model="form.tgl_order" placeholder="Tanggal order" readonly>
             <span class="mx-3 my-auto">s/d</span>
-            <input type="text" class="form-control" name="tgl_selesai" id="tgl_selesai" v-model="form.tgl_selesai" placeholder="Tanggal estimasi selesai" required>
+            <input type="text" class="form-control" name="tgl_selesai" id="tgl_selesai" v-model="form.tgl_selesai" placeholder="Tanggal estimasi selesai" required readonly>
           </div>
         </div>
         <div class="form-group row">
@@ -107,6 +107,7 @@
         pelanggan_id: '',
         paket_id: '',
         paket_harga: '',
+        paket_nama: '',
         berat: '',
         total: 0,
       },
@@ -114,11 +115,6 @@
       paket: @json($paket)
     },
     mounted() {
-      var today = new Date();
-      var date = today.getDate();
-      var lastId = '{{ $last_id }}';
-
-      this.form.invoice = 'TRX/'+date+'/'+lastId;
       this.form.tgl_order = "{{ date('d F Y') }}";
 
       $('#pelanggan_id').select2({
@@ -155,11 +151,21 @@
         axios.get("{{ route('paket.get', ':id') }}".replace(':id', app.form.paket_id))
             .then((response) => {
               app.form.paket_harga = response.data.harga;
+              app.form.paket_nama = response.data.nama;
+              console.log(response.data.nama);
               app.hitung();
+              app.invoice();
             })
             .catch((e) => {
+              console.log(e);
               toastr.error('Terdapat kesalahan!');
             });
+      },
+      invoice(){
+        var today = new Date();
+        var date = today.getDate()+""+("0" + (today.getMonth() + 1)).slice(-2)+""+today.getYear().toString().substr(-2);
+        var lastId = '{{ $last_id }}';
+        app.form.invoice = date+'/'+app.form.paket_nama+'/'+lastId;
       },
       hitung(){
         app.form.total = app.form.paket_harga * app.form.berat;

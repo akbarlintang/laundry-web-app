@@ -13,6 +13,7 @@
 
 Route::get('/','LandingPageController@cekNota');
 Route::get('/cek-nota','LandingPageController@cekNota');
+Route::post('/transaksi/cari', 'TransaksiController@cari')->name('transaksi.cari');
 
 Route::get('/dashboard','DashboardController@index');
 
@@ -79,6 +80,12 @@ Route::group(['prefix' => 'admin'], function(){
             Route::delete('/status/{id}', 'StatusController@delete')->name('status.delete');
             Route::get('/status/get/{id}', 'StatusController@get')->name('status.get');
             Route::get('/status/datatable', 'StatusController@datatable')->name('status.datatable');
+
+            // Konfigurasi Landing
+            Route::get('/config', 'ConfigController@index')->name('config.index');
+            Route::post('/config/{id}', 'ConfigController@update')->name('config.update');
+            Route::get('/config/get/{id}', 'ConfigController@get')->name('config.get');
+            Route::get('/config/datatable', 'ConfigController@datatable')->name('config.datatable');
         });
 
         Route::group(['prefix' => 'akun'], function(){

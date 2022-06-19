@@ -4,7 +4,7 @@
 <div class="content-wrapper d-flex align-items-center justify-content-center auth theme-one" style="background-image: url({{ url('assets/images/auth/login_1.jpg') }}); background-size: cover;">
   <div class="row w-100">
     <div class="col-lg-4 mx-auto">
-      <div class="auto-form-wrapper">
+      <div class="auto-form-wrapper py-5">
         @if (session()->has('errors'))
           <div class="alert alert-danger">
             {{ session('errors')->first('salah') }}
@@ -12,6 +12,9 @@
         @endif
         <form method="POST" action="{{ route('login.custom') }}">
           {{ csrf_field() }}
+          {{-- <div class="text-center my-5">
+            <img src="{{ asset('assets/landing/img/milla-laundry-logo.png') }}" class="w-25" alt="logo">
+          </div> --}}
           <div class="form-group">
             <label class="label">Username</label>
             <div class="input-group">
@@ -37,7 +40,7 @@
           <div class="form-group">
             <button class="btn btn-primary submit-btn btn-block">Login</button>
           </div>
-          <div class="form-group d-flex justify-content-between">
+          {{-- <div class="form-group d-flex justify-content-between">
             <div class="form-check form-check-flat mt-0">
               <label class="form-check-label">
                 <input type="checkbox" class="form-check-input" checked> Keep me signed in </label>
@@ -51,10 +54,10 @@
           <div class="text-block text-center my-3">
             <span class="text-small font-weight-semibold">Not a member ?</span>
             <a href="{{ url('/user-pages/register') }}" class="text-black text-small">Create new account</a>
-          </div>
+          </div> --}}
         </form>
       </div>
-      <ul class="auth-footer">
+      {{-- <ul class="auth-footer">
         <li>
           <a href="#">Conditions</a>
         </li>
@@ -64,8 +67,8 @@
         <li>
           <a href="#">Terms</a>
         </li>
-      </ul>
-      <p class="footer-text text-center">copyright © 2018 Bootstrapdash. All rights reserved.</p>
+      </ul> --}}
+      <p class="footer-text text-center mt-5">Copyright © 2022 Milla Laundry & Dry Cleaning. All rights reserved.</p>
     </div>
   </div>
 </div>

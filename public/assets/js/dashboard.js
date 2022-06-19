@@ -38,8 +38,8 @@
                 chartRangeMin: 0
             });
         }
-        if ($("#dashboard-area-chart").length) {
-            var lineChartCanvas = $("#dashboard-area-chart")
+        if ($("#myChart").length) {
+            var lineChartCanvas = $("#myChart")
                 .get(0)
                 .getContext("2d");
             var data = {

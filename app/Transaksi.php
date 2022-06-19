@@ -10,7 +10,7 @@ class Transaksi extends Model
         'no_invoice', 'pelanggan_id', 'berat', 'paket_id', 'total', 'tgl_order', 'tgl_selesai'
     ];
 
-    public function HistoryTransaksi()
+    public function History()
     {
         return $this->hasMany(HistoryTransaksi::class);
     }

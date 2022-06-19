@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Star Admin Pro Laravel Dashboard Template</title>
+  <title>Milla Laundry & Dry Cleaning</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,9 @@
   <!-- CSRF Token -->
   <meta name="_token" content="{{ csrf_token() }}">
   
-  <link rel="shortcut icon" href="{{ asset('/favicon.ico') }}">
+  {{-- <link rel="shortcut icon" href="{{ asset('/favicon.ico') }}"> --}}
+
+  <link rel="icon" href="{{ asset('assets/landing/img/milla-laundry-logo.png') }}">
 
   <!-- plugin css -->
   {!! Html::style('assets/plugins/@mdi/font/css/materialdesignicons.min.css') !!}
@@ -98,6 +100,9 @@
 
   {{-- Select2 --}}
   {!! Html::script('assets/select2/js/select2.min.js') !!}
+
+  {{-- Chartjs --}}
+  {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
 
   @yield('custom-scripts')
   @include('sweetalert::cdn')

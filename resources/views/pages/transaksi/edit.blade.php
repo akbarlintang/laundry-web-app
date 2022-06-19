@@ -44,7 +44,7 @@
           <div class="col-sm-9 input-group">
             <input type="text" class="form-control" name="tgl_order" id="tgl_order" v-model="form.tgl_order" placeholder="Tanggal order" readonly>
             <span class="mx-3 my-auto">s/d</span>
-            <input type="text" class="form-control" name="tgl_selesai" id="tgl_selesai" v-model="form.tgl_selesai" placeholder="Tanggal estimasi selesai" required>
+            <input type="text" class="form-control" name="tgl_selesai" id="tgl_selesai" v-model="form.tgl_selesai" placeholder="Tanggal estimasi selesai" required readonly>
           </div>
         </div>
         <div class="form-group row">

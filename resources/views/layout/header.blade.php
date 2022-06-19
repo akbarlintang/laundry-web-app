@@ -6,7 +6,7 @@
       <span class="mdi mdi-menu"></span>
     </button>
     <ul class="navbar-nav navbar-nav-right">
-      <li class="nav-item dropdown">
+      {{-- <li class="nav-item dropdown">
         <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
           <i class="mdi mdi-file-outline"></i>
           <span class="count">7</span>
@@ -81,14 +81,15 @@
             </div>
           </a>
         </div>
-      </li>
+      </li> --}}
+
       <li class="nav-item dropdown d-none d-xl-inline-block">
         <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
           <span class="profile-text d-none d-md-inline-flex">{{ auth()->user()->nama }}</span>
-          <img class="img-xs rounded-circle" src="{{ url('assets/images/faces/face8.jpg') }}" alt="Profile image"> </a>
+          <img class="img-xs rounded-circle" src="{{ asset('assets/landing/img/default-user.png') }}" alt="Profile image"> </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-          <a class="dropdown-item mt-2"> Manage Accounts </a>
-          <a class="dropdown-item"> Change Password </a>
+          <a class="dropdown-item mt-2"> Pengaturan Akun </a>
+          {{-- <a class="dropdown-item"> Change Password </a> --}}
           <a href="{{ route('admin.logout') }}" class="dropdown-item"> Logout </a>
         </div>
       </li>

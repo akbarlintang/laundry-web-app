@@ -65,6 +65,7 @@ class PaketController extends Controller
 
     public function get($id){
         $data = Paket::find($id);
+        $data->nama = strtoupper(str_replace(' ', '-', $data->nama));
         return response($data);
     }
 }

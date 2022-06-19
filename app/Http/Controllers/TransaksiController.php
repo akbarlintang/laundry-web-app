@@ -47,7 +47,7 @@ class TransaksiController extends Controller
 
         HistoryTransaksi::create([
             'transaksi_id' => Transaksi::orderBy('id', 'DESC')->first()->id,
-            'status' => 'Transaksi berhasil diterima',
+            'status_id' => 1,
         ]);
     }
 
@@ -141,5 +141,14 @@ class TransaksiController extends Controller
         })
         ->rawColumns(['status', 'aksi'])
         ->toJson();
+    }
+
+    public function cari(Request $request){
+        $transaksi = Transaksi::with('History.Status', 'Pelanggan', 'Paket')->where('no_invoice', $request->invoice)->first();
+        $transaksi->total = number_format($transaksi->total);
+        $transaksi->tgl_order = date('d F Y', strtotime($transaksi->tgl_order));
+        $transaksi->tgl_selesai = date('d F Y', strtotime($transaksi->tgl_selesai));
+
+        return $transaksi;
     }
 }

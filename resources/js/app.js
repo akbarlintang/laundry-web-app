@@ -14,6 +14,8 @@ window.Swal = require('sweetalert2');
 
 window.Vue = require('vue');
 
+window.Chart = require('chart.js');
+
 require('select2');
 
 /**
