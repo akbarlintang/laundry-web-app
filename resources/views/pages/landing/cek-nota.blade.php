@@ -108,7 +108,7 @@
         </div>
 
         <div class="row mt-5" v-if="query.length != 0">
-          <div class="col-8 mx-auto">
+          <div class="col-12 mx-auto table-responsive">
             <table class="table table-bordered table-hoverable">
               <thead>
                 <tr class="text-center">
@@ -119,6 +119,7 @@
                   <th>Jenis Paket</th>
                   <th>Berat</th>
                   <th>Total</th>
+                  <th>Status Pembayaran</th>
                 </tr>
               </thead>
               <tbody>
@@ -130,6 +131,7 @@
                   <td>@{{ query.paket == null ? '' : query.paket.nama }}</td>
                   <td>@{{ query.berat }} Kg</td>
                   <td>Rp @{{ query.total }}</td>
+                  <td>@{{ query.pembayaran }}</td>
                 </tr>
               </tbody>
             </table>
@@ -137,7 +139,23 @@
         </div>
 
         <div class="row mt-5" v-if="query.length != 0">
-          <div class="col-8 mx-auto">
+          <div class="col-10 mx-auto">
+            <div class="card">
+              <div class="card-body mx-5">
+                <h4 class="text-center font-weight-bold mt-3 mb-5">Galeri Transaksi</h4>
+                
+                <div class="row">
+                  <div class="col-6 mb-3" v-for="(q, index) in query.foto">
+                    <img :src="'storage/transaksi/' + q" alt="foto barang" class="img-thumbnail">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-5" v-if="query.length != 0">
+          <div class="col-10 mx-auto">
             <div class="card">
               <div class="card-body mx-5">
                 <h4 class="text-center font-weight-bold mt-3 mb-5">Log Pengerjaan</h4>
@@ -259,6 +277,8 @@
           paket: '',
           berat: '',
           total: '',
+          pembayaran: '',
+          foto: [],
         },
         invoice: '',
         query: [],
@@ -275,7 +295,9 @@
           this.form.tgl_selesai = '',
           this.form.paket = '',
           this.form.berat = '',
-          this.form.total = ''
+          this.form.total = '',
+          this.form.pembayaran = '',
+          this.form.foto = []
         },
         cari(){
           axios.post("{{ route('transaksi.cari') }}", {'invoice': app.invoice})

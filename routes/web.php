@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/transaksi/tambah', 'TransaksiController@create')->name('transaksi.tambah');
         Route::get('/transaksi/edit/{id}', 'TransaksiController@edit')->name('transaksi.edit');
         Route::post('/transaksi/status/{id}', 'TransaksiController@updateStatus')->name('transaksi.updateStatus');
+        Route::post('/transaksi/pembayaran/{id}', 'TransaksiController@updatePembayaran')->name('transaksi.updatePembayaran');
         Route::get('/transaksi/datatable', 'TransaksiController@datatable')->name('transaksi.datatable');
 
         // Pelanggan

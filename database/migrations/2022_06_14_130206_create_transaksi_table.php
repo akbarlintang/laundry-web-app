@@ -20,6 +20,8 @@ class CreateTransaksiTable extends Migration
             $table->integer('berat');
             $table->integer('paket_id');
             $table->biginteger('total');
+            $table->string('pembayaran');
+            $table->text('foto');
             $table->date('tgl_order');
             $table->date('tgl_selesai');
             $table->timestamps();

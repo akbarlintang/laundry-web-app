@@ -146,8 +146,8 @@
       },
       clear(){
         this.form.nama = '';
-        this.form.no_hp = '';
-        this.form.alamat = '';
+        this.form.id = '';
+        this.form.harga = '';
       },
       tambah(){
         this.clear();

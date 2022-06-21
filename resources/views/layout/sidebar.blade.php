@@ -90,39 +90,41 @@
       </a>
     </li>
 
-    <li class="nav-item {{ active_class(['admin/master/*']) }}">
-      <a class="nav-link" data-toggle="collapse" href="#master" aria-expanded="{{ is_active_route(['admin/master/*']) }}" aria-controls="akun">
-        <i class="menu-icon mdi mdi-lock-outline"></i>
-        <span class="menu-title">Master</span>
-        <i class="menu-arrow"></i>
-      </a>
-      <div class="collapse {{ show_class(['admin/master/*']) }}" id="master">
-        <ul class="nav flex-column sub-menu">
+    @if (auth()->user()->Role->id == 1 || auth()->user()->Role->nama == 'Admin')
+      <li class="nav-item {{ active_class(['admin/master/*']) }}">
+        <a class="nav-link" data-toggle="collapse" href="#master" aria-expanded="{{ is_active_route(['admin/master/*']) }}" aria-controls="akun">
+          <i class="menu-icon mdi mdi-lock-outline"></i>
+          <span class="menu-title">Master</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse {{ show_class(['admin/master/*']) }}" id="master">
+          <ul class="nav flex-column sub-menu">
 
-          <li class="nav-item {{ active_class(['admin/master/pemasukan']) }}">
-            <a class="nav-link" href="{{ route('pemasukan.index') }}">Pemasukan</a>
-          </li>
-          {{-- <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
-            <a class="nav-link" href="{{ route('karyawan.index') }}">Pengeluaran</a>
-          </li> --}}
-          <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
-            <a class="nav-link" href="{{ route('karyawan.index') }}">Karyawan</a>
-          </li>
-          <li class="nav-item {{ active_class(['admin/master/role']) }}">
-            <a class="nav-link" href="{{ route('role.index') }}">Role</a>
-          </li>
-          <li class="nav-item {{ active_class(['admin/master/paket']) }}">
-            <a class="nav-link" href="{{ route('paket.index') }}">Paket</a>
-          </li>
-          <li class="nav-item {{ active_class(['admin/master/status']) }}">
-            <a class="nav-link" href="{{ route('status.index') }}">Status</a>
-          </li>
-          <li class="nav-item {{ active_class(['admin/master/config']) }}">
-            <a class="nav-link" href="{{ route('config.index') }}">Landing Page</a>
-          </li>
-        </ul>
-      </div>
-    </li>
+            <li class="nav-item {{ active_class(['admin/master/pemasukan']) }}">
+              <a class="nav-link" href="{{ route('pemasukan.index') }}">Pemasukan</a>
+            </li>
+            {{-- <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
+              <a class="nav-link" href="{{ route('karyawan.index') }}">Pengeluaran</a>
+            </li> --}}
+            <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
+              <a class="nav-link" href="{{ route('karyawan.index') }}">Karyawan</a>
+            </li>
+            <li class="nav-item {{ active_class(['admin/master/role']) }}">
+              <a class="nav-link" href="{{ route('role.index') }}">Role</a>
+            </li>
+            <li class="nav-item {{ active_class(['admin/master/paket']) }}">
+              <a class="nav-link" href="{{ route('paket.index') }}">Paket</a>
+            </li>
+            <li class="nav-item {{ active_class(['admin/master/status']) }}">
+              <a class="nav-link" href="{{ route('status.index') }}">Status</a>
+            </li>
+            <li class="nav-item {{ active_class(['admin/master/config']) }}">
+              <a class="nav-link" href="{{ route('config.index') }}">Landing Page</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    @endif
 
 
     <li class="nav-item {{ active_class(['admin/akun/*']) }}">

@@ -30,7 +30,8 @@
     </div>
   @endforeach
 
-  <form @submit.prevent="store">
+  <form action="{{ route('transaksi.store') }}" method="POST" id="form" enctype="multipart/form-data">
+    {{ csrf_field() }}
     <div class="row no-gutters row-bordered row-border-light">
       <div class="col-8">
         <div class="form-group row">
@@ -74,7 +75,24 @@
             </div>
           </div>
         </div>
-        <div class="form-group row">
+        <div v-for="(key, index) in form.file" :key="`formDok-${index}`">
+          <div class="form-group m-form__group row">
+            <label class="col-lg-3 col-form-label" for="foto">
+              Upload Foto @{{ index+1 }}
+            </label>
+            <div class="col-lg-7">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="file[]">
+                <label class="custom-file-label" for="customFile">Upload foto</label>
+              </div>
+            </div>
+            <div class="col-lg-2 align-middle">
+              <span class="btn btn-success btn-sm" @click="addField(key, form.file)">Tambah</span>
+              <span class="btn btn-danger btn-sm" @click="removeField(index, form.file)" v-show="form.file.length > 1">Hapus</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mt-5">
           <div class="col-sm-5 text-left">
             <div>
               <label for="total" class="col-form-label">Total Harga</label>
@@ -110,12 +128,17 @@
         paket_nama: '',
         berat: '',
         total: 0,
+        file: '',
       },
       pelanggan: @json($pelanggan),
       paket: @json($paket)
     },
     mounted() {
       this.form.tgl_order = "{{ date('d F Y') }}";
+
+      this.form.file = [{
+        val: '',
+      }];
 
       $('#pelanggan_id').select2({
         placeholder: "Pilih pelanggan",
@@ -144,6 +167,26 @@
       }).on("change", function (e) { 
         app.form.tgl_selesai = $('#tgl_selesai').val();
       });
+
+      $(document).on('submit', '[id^=form]', function (e) {
+        e.preventDefault();
+        var form = document.forms["form"];
+        swal({
+          title: "Apakah anda yakin?",
+          text: "Data transaksi baru akan disimpan!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: '#ff4444',
+          confirmButtonText: 'Ya',
+          cancelButtonText: 'Tidak',
+        }).then((confirm) => {
+          if (confirm) {
+            form.submit();
+          }
+        });
+
+        return false;
+      });
     },
     methods: {
       getPaket(){
@@ -169,6 +212,14 @@
       },
       hitung(){
         app.form.total = app.form.paket_harga * app.form.berat;
+      },
+      removeField(index, fieldType) {
+        fieldType.splice(index, 1);
+      },
+      addField(value, fieldType) {
+        fieldType.push({
+            val: '',
+        });
       },
       store(){
         swal({

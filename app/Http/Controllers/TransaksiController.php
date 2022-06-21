@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\{Transaksi, HistoryTransaksi, Pelanggan, Paket, Status};
+use Session;
 
 class TransaksiController extends Controller
 {
@@ -35,6 +37,15 @@ class TransaksiController extends Controller
             'total' => 'required',
         ]);
 
+        $files= [];
+        if ($request->file) {
+            foreach ($request->file('file') as $file) {
+                $fileName = $file->getClientOriginalName();
+                $file->storeAs('public/transaksi', $fileName);
+                array_push($files, $fileName);
+            }
+        }
+
         Transaksi::create([
             'no_invoice' => $request->invoice,
             'tgl_order' => date('Y-m-d', strtotime($request->tgl_order)),
@@ -43,12 +54,18 @@ class TransaksiController extends Controller
             'paket_id' => $request->paket_id,
             'berat' => $request->berat,
             'total' => $request->total,
+            'pembayaran' => 'belum-lunas',
+            'foto' => json_encode($files),
         ]);
 
         HistoryTransaksi::create([
             'transaksi_id' => Transaksi::orderBy('id', 'DESC')->first()->id,
             'status_id' => 1,
         ]);
+
+        $request->session()->flash('store', true);
+
+        return redirect()->route('transaksi.index');
     }
 
     public function edit($id) {
@@ -95,9 +112,20 @@ class TransaksiController extends Controller
             'status' => 'required',
         ]);
 
-        HistoryTransaksi::whereId($id)->create([
+        HistoryTransaksi::create([
             'transaksi_id' => $id,
             'status_id' => $request->status,
+        ]);
+    }
+
+    public function updatePembayaran(Request $request, $id) {
+        // return $request;
+        $request->validate([
+            'pembayaran' => 'required',
+        ]);
+
+        Transaksi::whereId($id)->update([
+            'pembayaran' => $request->pembayaran,
         ]);
     }
 
@@ -105,6 +133,7 @@ class TransaksiController extends Controller
         $query = Transaksi::all();
         foreach($query as $q){
             $q->status = HistoryTransaksi::with('Status')->where('transaksi_id', $q->id)->orderBy('id', 'DESC')->first();
+            $q->foto = json_decode($q->foto);
         }
         return $query;
     }
@@ -134,12 +163,39 @@ class TransaksiController extends Controller
             return "<a href='javascript:;' onclick='app.status(".$item.")' class='btn btn-sm btn-success'>".$item->status->status->nama."</a>";
         })
         ->editColumn("aksi", function($item){
-            return "<div class='text-center'>
-                <a href='". route('transaksi.edit', $item->id)."' class='btn btn-sm btn-warning'  title='Edit'><i class='mdi mdi-pencil'></i></a>
+            if (auth()->user()->Role->id == 1 || auth()->user()->Role->nama == 'Admin') {
+                $aksi = "<div class='text-center'>
+                <a href='". route('transaksi.edit', $item->id)."' class='btn btn-sm btn-warning'  title='Edit' disabled><i class='mdi mdi-pencil'></i></a>
                 <a href='javascript:;' onclick='app.delete(".$item.")' class='btn btn-sm btn-danger'  title='Hapus'><i class='mdi mdi-delete'></i></a>
             </div>";
+            } else {
+                $aksi = "<div class='text-center'>
+                <button class='btn btn-sm btn-warning' title='Edit' disabled><i class='mdi mdi-pencil'></i></button>
+                <button class='btn btn-sm btn-danger' title='Hapus' disabled><i class='mdi mdi-delete'></i></button>
+            </div>";
+            }
+            
+            return $aksi;
         })
-        ->rawColumns(['status', 'aksi'])
+        ->editColumn("pembayaran", function($item){
+            if ($item->pembayaran == 'lunas') {
+                return "<a href='javascript:;' onclick='app.pembayaran(".$item.")' class='btn btn-sm btn-success'>Lunas</a>";
+            } else {
+                return "<a href='javascript:;' onclick='app.pembayaran(".$item.")' class='btn btn-sm btn-danger'>Belum Lunas</a>";
+            }
+        })
+        ->editColumn("foto", function($item){
+            if ($item->foto) {
+                // foreach ($item->foto as $key => $value) {
+                //     return "<img src='". asset('/storage/transaksi/'.$value) ."' alt='foto barang' style='width: 200px; height: 200px;'>";
+                // }
+                return "<a href='javascript:;' onclick='app.galeri(".$item.")' class=''>Galeri</a>";
+            } else {
+                // return "<a href='javascript:;' onclick='app.pembayaran(".$item.")' class='btn btn-sm btn-danger'>Belum Lunas</a>";
+                return "-";
+            }
+        })
+        ->rawColumns(['status', 'aksi', 'pembayaran', 'foto'])
         ->toJson();
     }
 
@@ -148,6 +204,8 @@ class TransaksiController extends Controller
         $transaksi->total = number_format($transaksi->total);
         $transaksi->tgl_order = date('d F Y', strtotime($transaksi->tgl_order));
         $transaksi->tgl_selesai = date('d F Y', strtotime($transaksi->tgl_selesai));
+        $transaksi->pembayaran = ucwords(str_replace('-', ' ',$transaksi->pembayaran));
+        $transaksi->foto = json_decode($transaksi->foto);
 
         return $transaksi;
     }
