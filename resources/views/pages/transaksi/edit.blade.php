@@ -30,7 +30,8 @@
     </div>
   @endforeach
 
-  <form @submit.prevent="store">
+  <form action="{{ route('transaksi.update', $data->id) }}" method="POST" id="form" enctype="multipart/form-data">
+    {{ csrf_field() }}
     <div class="row no-gutters row-bordered row-border-light">
       <div class="col-8">
         <div class="form-group row">
@@ -74,7 +75,39 @@
             </div>
           </div>
         </div>
-        <div class="form-group row">
+
+        {{-- Jika ada file --}}
+        @if ($data->foto)
+          @foreach ($data->foto as $index => $dt)
+            <div class="form-group row">
+              <label for="keterangan" class="col-sm-3 col-form-label">Foto terupload {{ $index+1 }}</label>
+              <div class="col-sm-9">
+                <a href="{{ route('transaksi.download', [$data->id, $index]) }}" class="btn btn-sm btn-success">Download</a>
+                <a href='javascript:;' onclick='app.delete({{ $index }})' class="btn btn-sm btn-danger">Hapus</a>
+              </div>
+            </div>
+          @endforeach
+        @endif
+
+        <div v-for="(key, index) in form.file" :key="`formDok-${index}`">
+          <div class="form-group m-form__group row">
+            <label class="col-lg-3 col-form-label" for="foto">
+              Upload Foto @{{ index+1 }}
+            </label>
+            <div class="col-lg-7">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="file[]">
+                <label class="custom-file-label" for="customFile">Upload foto</label>
+              </div>
+            </div>
+            <div class="col-lg-2 align-middle">
+              <span class="btn btn-success btn-sm" @click="addField(key, form.file)">Tambah</span>
+              <span class="btn btn-danger btn-sm" @click="removeField(index, form.file)" v-show="form.file.length > 1">Hapus</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row mt-5">
           <div class="col-sm-5 text-left">
             <div>
               <label for="total" class="col-form-label">Total Harga</label>
@@ -111,6 +144,7 @@
         paket_harga: '',
         berat: '',
         total: 0,
+        file: '',
       },
       pelanggan: @json($pelanggan),
       paket: @json($paket)
@@ -129,6 +163,10 @@
       this.form.paket_id = this.transaksi.paket_id;
       this.form.berat = this.transaksi.berat;
       this.form.total = this.transaksi.total;
+
+      this.form.file = [{
+        val: '',
+      }];
 
       $('#pelanggan_id').val(this.form.pelanggan_id);
       $('#pelanggan_id').select2({
@@ -159,6 +197,28 @@
       }).on("change", function (e) { 
         app.form.tgl_selesai = $('#tgl_selesai').val();
       });
+
+      $(document).on('submit', '[id^=form]', function (e) {
+        e.preventDefault();
+        var form = document.forms["form"];
+        swal({
+          title: "Apakah anda yakin?",
+          text: "Data transaksi akan diubah!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: '#ff4444',
+          confirmButtonText: 'Ya',
+          cancelButtonText: 'Tidak',
+        }).then(function(result){
+          if(result.value){
+            form.submit();
+          }else if(result.dismiss == 'cancel'){
+
+          }
+        });
+
+        return false;
+      });
     },
     methods: {
       getPaket(){
@@ -175,36 +235,40 @@
       hitung(){
         app.form.total = app.form.paket_harga * app.form.berat;
       },
-      store(){
+      removeField(index, fieldType) {
+        fieldType.splice(index, 1);
+      },
+      addField(value, fieldType) {
+        fieldType.push({
+            val: '',
+        });
+      },
+      delete(index) {
         swal({
-          title: 'Apakah anda yakin?',
-          text: "Data transaksi baru akan diubah!",
-          type: 'warning',
+          title: "Anda yakin akan menghapus foto ini ?",
+          text: "Foto akan dihapus dari list",
+          type: "warning",
           showCancelButton: true,
           confirmButtonColor: '#ff4444',
           confirmButtonText: 'Ya',
           cancelButtonText: 'Tidak',
-        }).then(function(result){
+        })
+        .then(function(result){
           if(result.value){
-            axios.post("{{ route('transaksi.update', ':id') }}".replace(':id', app.form.id), app.form)
-            .then((response) => {
-              swal({
-                type: 'success',
-                title: 'Sukses',
-                text: 'Data berhasil diubah!',
-              }).then(function(result){
-                if(result.value){
-                  location.replace("{{ route('transaksi.index') }}");
-                }
-              });
-            })
-            .catch((e) => {
-              swal({
-                type: 'error',
-                title: 'Error',
-                text: 'Data gagal diubah!',
+            axios.delete("{{ route('transaksi.file.delete', [':id', ':index']) }}".replace(':id', app.form.id).replace(':index', index))
+              .then((response) => {
+                swal({
+                  type: 'success',
+                  title: 'Sukses',
+                  text: 'Foto berhasil dihapus!',
+                })
+                .then(function(result){
+                  location.reload();
+                });
               })
-            });
+              .catch((e) => {
+                toastr.error('Terjadi kesalahan!')
+              });
           }else if(result.dismiss == 'cancel'){
 
           }

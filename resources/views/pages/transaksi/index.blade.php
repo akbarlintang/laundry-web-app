@@ -35,6 +35,12 @@
     </div>
   @endif
 
+  @if(session('update'))
+    <div class="alert alert-success" role="alert">
+      Data transaksi berhasil diubah!
+    </div>
+  @endif
+
   <div class="row no-gutters row-bordered row-border-light">
     <div class="table-responsive">
       <table id="datatable" class="table table-hoverable table-bordered table-striped">

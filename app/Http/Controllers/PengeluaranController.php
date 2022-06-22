@@ -10,22 +10,22 @@ use App\{Pengeluaran, Transaksi};
 class PengeluaranController extends Controller
 {
     public function index(Request $request) {
-        if ($request->session()->has('pemasukan_mulai')) {
-            $pemasukan_mulai = date('d F Y', strtotime(session('pemasukan_mulai')));
-            $pemasukan_selesai = date('d F Y', strtotime(session('pemasukan_selesai')));
+        if ($request->session()->has('pengeluaran_mulai')) {
+            $pengeluaran_mulai = date('d F Y', strtotime(session('pengeluaran_mulai')));
+            $pengeluaran_selesai = date('d F Y', strtotime(session('pengeluaran_selesai')));
 
-            $transaksi = Transaksi::whereBetween('tgl_order', [$pemasukan_mulai, $pemasukan_selesai])->get();
+            $transaksi = Pengeluaran::whereBetween('tgl_order', [$pengeluaran_mulai, $pengeluaran_selesai])->get();
         } else {
-            $transaksi = Transaksi::get();
-            $pemasukan_mulai = null;
-            $pemasukan_selesai = null;
+            $transaksi = Pengeluaran::get();
+            $pengeluaran_mulai = null;
+            $pengeluaran_selesai = null;
         }
 
-        return view('pages.master.pengeluaran.index', compact('pemasukan_mulai', 'pemasukan_selesai'));
+        return view('pages.pengeluaran.index', compact('pengeluaran_mulai', 'pengeluaran_selesai'));
     }
 
     public function create() {
-        return view('pages.master.pengeluaran.create');
+        return view('pages.pengeluaran.create');
     }
 
     public function store(Request $request) {
@@ -62,7 +62,7 @@ class PengeluaranController extends Controller
         $data->tgl_pengeluaran = date('d F Y', strtotime($data->tgl_pengeluaran));
         $data->bukti = json_decode($data->bukti);
 
-        return view('pages.master.pengeluaran.edit', compact('data'));
+        return view('pages.pengeluaran.edit', compact('data'));
     }
 
     public function update(Request $request, $id) {
@@ -91,41 +91,8 @@ class PengeluaranController extends Controller
             'keterangan' => $request->keterangan,
             'bukti' => json_encode($files),
         ]);
-        // if (count($pengeluaran->bukti) > 0) {
-        //     $files= json_decode($pengeluaran->bukti);
-        //     if ($request->file) {
-        //         foreach ($request->file('file') as $file) {
-        //             $fileName = $file->getClientOriginalName();
-        //             $file->storeAs('public/pengeluaran', $fileName);
-        //             array_push($files, $fileName);
-        //         }
-        //     }
 
-        //     Pengeluaran::create([
-        //         'tgl_pengeluaran' => date('Y-m-d', strtotime($request->tgl)),
-        //         'total' => $request->total,
-        //         'keterangan' => $request->keterangan,
-        //         'bukti' => json_encode($files),
-        //     ]);
-        // } else {
-        //     $files= [];
-        //     if ($request->file) {
-        //         foreach ($request->file('file') as $file) {
-        //             $fileName = $file->getClientOriginalName();
-        //             $file->storeAs('public/pengeluaran', $fileName);
-        //             array_push($files, $fileName);
-        //         }
-        //     }
-
-        //     Pengeluaran::create([
-        //         'tgl_pengeluaran' => date('Y-m-d', strtotime($request->tgl)),
-        //         'total' => $request->total,
-        //         'keterangan' => $request->keterangan,
-        //         'bukti' => json_encode($files),
-        //     ]);
-        // }
-
-        $request->session()->flash('store', true);
+        $request->session()->flash('update', true);
 
         return redirect()->route('pengeluaran.index');
     }
@@ -146,10 +113,23 @@ class PengeluaranController extends Controller
     }
 
     public function query($request) {
-        $query = Pengeluaran::get();
-        foreach ($query as $q) {
-            $q->bukti = json_decode($q->bukti);
+        if ($request->session()->has('pengeluaran_mulai')) {
+            $pengeluaran_mulai = session('pengeluaran_mulai');
+            $pengeluaran_selesai = session('pengeluaran_selesai');
+            $request->session()->reflash();
+
+            $query = Pengeluaran::whereBetween('tgl_pengeluaran', [$pengeluaran_mulai, $pengeluaran_selesai])->get();
+            foreach ($query as $q) {
+                $q->bukti = json_decode($q->bukti);
+            }
+        } else {
+            $query = Pengeluaran::get();
+            foreach ($query as $q) {
+                $q->bukti = json_decode($q->bukti);
+            }
         }
+
+        
         return $query;
     }
 
@@ -157,7 +137,7 @@ class PengeluaranController extends Controller
         return datatables($this->query($request))
         ->addIndexColumn()
         ->editColumn("tgl", function($item){
-            return date('d F Y', strtotime($item->created_at));
+            return date('d F Y', strtotime($item->tgl_pengeluaran));
         })
         ->editColumn("total", function($item){
             return 'Rp '.number_format($item->total);
@@ -177,6 +157,36 @@ class PengeluaranController extends Controller
         })
         ->rawColumns(['aksi', 'total', 'bukti'])
         ->toJson();
+    }
+
+    public function filter(Request $request){
+        $pengeluaran_mulai = date('Y-m-d', strtotime($request->tgl_mulai));
+        $pengeluaran_selesai = date('Y-m-d', strtotime($request->tgl_selesai));
+
+        $request->session()->flash('pengeluaran_mulai', $pengeluaran_mulai);
+        $request->session()->flash('pengeluaran_selesai', $pengeluaran_selesai);
+    }
+
+    public function total(Request $request){
+        if ($request->session()->has('pengeluaran_mulai')) {
+            $pengeluaran_mulai = session('pengeluaran_mulai');
+            $pengeluaran_selesai = session('pengeluaran_selesai');
+
+            $query = Pengeluaran::whereBetween('tgl_pengeluaran', [$pengeluaran_mulai, $pengeluaran_selesai])->get();
+            $total = 0;
+            foreach ($query as $trx) {
+                $total += $trx->total;
+            }
+            $total = number_format($total);
+        } else {
+            $query = Pengeluaran::get();
+            $total = 0;
+            foreach ($query as $trx) {
+                $total += $trx->total;
+            }
+            $total = number_format($total);
+        }
+        return $total;
     }
 
     public function download($id, $index){

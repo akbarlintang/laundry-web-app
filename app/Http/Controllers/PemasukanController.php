@@ -19,7 +19,7 @@ class PemasukanController extends Controller
             $pemasukan_mulai = null;
             $pemasukan_selesai = null;
         }
-        return view('pages.master.pemasukan.index', compact('pemasukan_mulai', 'pemasukan_selesai'));
+        return view('pages.pemasukan.index', compact('pemasukan_mulai', 'pemasukan_selesai'));
     }
 
     public function query($request) {

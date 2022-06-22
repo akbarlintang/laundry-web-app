@@ -36,7 +36,34 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/transaksi/edit/{id}', 'TransaksiController@edit')->name('transaksi.edit');
         Route::post('/transaksi/status/{id}', 'TransaksiController@updateStatus')->name('transaksi.updateStatus');
         Route::post('/transaksi/pembayaran/{id}', 'TransaksiController@updatePembayaran')->name('transaksi.updatePembayaran');
+        Route::delete('/transaksi/file/{id}/{index}', 'TransaksiController@deleteFile')->name('transaksi.file.delete');
         Route::get('/transaksi/datatable', 'TransaksiController@datatable')->name('transaksi.datatable');
+        Route::get('/transaksi/download/{id}/{index}', 'TransaksiController@download')->name('transaksi.download');
+
+        // Pemasukan
+        Route::get('/pemasukan', 'PemasukanController@index')->name('pemasukan.index');
+        Route::post('/pemasukan/filter', 'PemasukanController@filter')->name('pemasukan.filter');
+        Route::get('/pemasukan/total', 'PemasukanController@total')->name('pemasukan.total');
+        Route::get('/pemasukan/datatable', 'PemasukanController@datatable')->name('pemasukan.datatable');
+
+        // Pengeluaran
+        Route::get('/pengeluaran', 'PengeluaranController@index')->name('pengeluaran.index');
+        Route::post('/pengeluaran', 'PengeluaranController@store')->name('pengeluaran.store');
+        Route::post('/pengeluaran/{id}', 'PengeluaranController@update')->name('pengeluaran.update');
+        Route::delete('/pengeluaran/{id}', 'PengeluaranController@delete')->name('pengeluaran.delete');
+        Route::get('/pengeluaran/tambah', 'PengeluaranController@create')->name('pengeluaran.tambah');
+        Route::get('/pengeluaran/edit/{id}', 'PengeluaranController@edit')->name('pengeluaran.edit');
+        Route::post('/pengeluaran/filter/tanggal', 'PengeluaranController@filter')->name('pengeluaran.filter');
+        Route::get('/pengeluaran/total', 'PengeluaranController@total')->name('pengeluaran.total');
+        Route::delete('/pengeluaran/file/{id}/{index}', 'PengeluaranController@deleteFile')->name('pengeluaran.file.delete');
+        Route::get('/pengeluaran/datatable', 'PengeluaranController@datatable')->name('pengeluaran.datatable');
+        Route::get('/pengeluaran/download/{id}/{index}', 'PengeluaranController@download')->name('pengeluaran.download');
+
+        // Laporan keuangan
+        Route::get('/laporan-keuangan', 'LaporanKeuanganController@index')->name('laporan-keuangan.index');
+        Route::post('/laporan-keuangan/filter', 'LaporanKeuanganController@filter')->name('laporan-keuangan.filter');
+        Route::get('/laporan-keuangan/total', 'LaporanKeuanganController@total')->name('laporan-keuangan.total');
+        Route::get('/laporan-keuangan/datatable', 'LaporanKeuanganController@datatable')->name('laporan-keuangan.datatable');
 
         // Pelanggan
         Route::get('/pelanggan', 'PelangganController@index')->name('pelanggan.index');
@@ -46,25 +73,6 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/pelanggan/datatable', 'PelangganController@datatable')->name('pelanggan.datatable');
 
         Route::group(['prefix' => 'master'], function(){
-            // Pemasukan
-            Route::get('/pemasukan', 'PemasukanController@index')->name('pemasukan.index');
-            Route::post('/pemasukan/filter', 'PemasukanController@filter')->name('pemasukan.filter');
-            Route::get('/pemasukan/total', 'PemasukanController@total')->name('pemasukan.total');
-            Route::get('/pemasukan/datatable', 'PemasukanController@datatable')->name('pemasukan.datatable');
-
-            // Pengeluaran
-            Route::get('/pengeluaran', 'PengeluaranController@index')->name('pengeluaran.index');
-            Route::post('/pengeluaran', 'PengeluaranController@store')->name('pengeluaran.store');
-            Route::post('/pengeluaran/{id}', 'PengeluaranController@update')->name('pengeluaran.update');
-            Route::delete('/pengeluaran/{id}', 'PengeluaranController@delete')->name('pengeluaran.delete');
-            Route::get('/pengeluaran/tambah', 'PengeluaranController@create')->name('pengeluaran.tambah');
-            Route::get('/pengeluaran/edit/{id}', 'PengeluaranController@edit')->name('pengeluaran.edit');
-            Route::post('/pengeluaran/filter', 'PengeluaranController@filter')->name('pengeluaran.filter');
-            Route::get('/pengeluaran/total', 'PengeluaranController@total')->name('pengeluaran.total');
-            Route::delete('/pengeluaran/file/{id}/{index}', 'PengeluaranController@deleteFile')->name('pengeluaran.file.delete');
-            Route::get('/pengeluaran/datatable', 'PengeluaranController@datatable')->name('pengeluaran.datatable');
-            Route::get('/pengeluaran/download/{id}/{index}', 'PengeluaranController@download')->name('pengeluaran.download');
-
             // Role
             Route::get('/role', 'RoleController@index')->name('role.index');
             Route::post('/role', 'RoleController@store')->name('role.store');

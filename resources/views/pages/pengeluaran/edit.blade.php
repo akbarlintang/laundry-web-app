@@ -4,7 +4,6 @@
   <nav aria-label="breadcrumb" class="bg-white">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-      <li class="breadcrumb-item"><a href="#">Master</a></li>
       <li class="breadcrumb-item"><a href="{{ route('pengeluaran.index') }}">Pengeluaran</a></li>
       <li class="breadcrumb-item active" aria-current="page">Edit</li>
     </ol>
@@ -62,8 +61,8 @@
                 <a href='javascript:;' onclick='app.delete({{ $index }})' class="btn btn-sm btn-danger">Hapus</a>
               </div>
             </div>
-            @endforeach
-          @endif
+          @endforeach
+        @endif
           
         <div v-for="(key, index) in form.file" :key="`formDok-${index}`">
           <div class="form-group m-form__group row">
@@ -131,7 +130,7 @@
         var form = document.forms["form"];
         swal({
           title: "Apakah anda yakin?",
-          text: "Data pengeluaran baru akan disimpan!",
+          text: "Data pengeluaran akan diubah!",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: '#ff4444',

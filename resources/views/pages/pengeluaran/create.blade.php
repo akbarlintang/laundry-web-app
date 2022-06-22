@@ -4,7 +4,6 @@
   <nav aria-label="breadcrumb" class="bg-white">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-      <li class="breadcrumb-item"><a href="#">Master</a></li>
       <li class="breadcrumb-item"><a href="{{ route('pengeluaran.index') }}">Pengeluaran</a></li>
       <li class="breadcrumb-item active" aria-current="page">Tambah</li>
     </ol>

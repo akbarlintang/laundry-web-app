@@ -83,6 +83,24 @@
         <span class="menu-title">Transaksi</span>
       </a>
     </li>
+    <li class="nav-item {{ active_class(['admin/pemasukan', 'admin/pemasukan/*']) }}">
+      <a class="nav-link" href="{{ route('pemasukan.index') }}">
+        <i class="menu-icon mdi mdi-chart-line"></i>
+        <span class="menu-title">Pemasukan</span>
+      </a>
+    </li>
+    <li class="nav-item {{ active_class(['admin/pengeluaran', 'admin/pengeluaran/*']) }}">
+      <a class="nav-link" href="{{ route('pengeluaran.index') }}">
+        <i class="menu-icon mdi mdi-cart"></i>
+        <span class="menu-title">Pengeluaran</span>
+      </a>
+    </li>
+    <li class="nav-item {{ active_class(['admin/laporan-keuangan', 'admin/laporan-keuangan/*']) }}">
+      <a class="nav-link" href="{{ route('laporan-keuangan.index') }}">
+        <i class="menu-icon mdi mdi-file-chart"></i>
+        <span class="menu-title">Laporan Keuangan</span>
+      </a>
+    </li>
     <li class="nav-item {{ active_class(['admin/pelanggan']) }}">
       <a class="nav-link" href="{{ route('pelanggan.index') }}">
         <i class="menu-icon mdi mdi-account-box"></i>
@@ -99,13 +117,6 @@
         </a>
         <div class="collapse {{ show_class(['admin/master/*']) }}" id="master">
           <ul class="nav flex-column sub-menu">
-
-            <li class="nav-item {{ active_class(['admin/master/pemasukan']) }}">
-              <a class="nav-link" href="{{ route('pemasukan.index') }}">Pemasukan</a>
-            </li>
-            <li class="nav-item {{ active_class(['admin/master/pengeluaran']) }}">
-              <a class="nav-link" href="{{ route('pengeluaran.index') }}">Pengeluaran</a>
-            </li>
             <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
               <a class="nav-link" href="{{ route('karyawan.index') }}">Karyawan</a>
             </li>

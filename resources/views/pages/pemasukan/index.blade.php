@@ -4,8 +4,7 @@
   <nav aria-label="breadcrumb" class="bg-white">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-      <li class="breadcrumb-item"><a href="#">Master</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Pengeluaran</li>
+      <li class="breadcrumb-item active" aria-current="page">Pemasukan</li>
     </ol>
   </nav>
 @endsection
@@ -14,14 +13,14 @@
   <div class="row">
     <div class="col-8">
       <h4 class="font-weight-bold py-3 mb-4">
-        Rekap Pengeluaran
+        Rekap Pemasukan
       </h4>
     </div>
-    <div class="col-4 text-right my-auto">
-      <a href="{{ route('pengeluaran.tambah') }}" class="btn btn-md btn-primary">
+    {{-- <div class="col-4 text-right my-auto">
+      <a href="javascript:;" onclick="app.tambah()" class="btn btn-md btn-primary" data-toggle="modal" data-target="#tambahModal">
         <i class="mdi mdi-plus"></i> Tambah
       </a>
-    </div>
+    </div> --}}
   </div>
 
   @foreach ($errors->all() as $error)
@@ -29,12 +28,6 @@
       {{ $error }}
     </div>
   @endforeach
-
-  @if(session('store'))
-    <div class="alert alert-success" role="alert">
-      Data pengeluaran baru berhasil disimpan!
-    </div>
-  @endif
 
   <div>
     <form @submit.prevent="filter" class="row">
@@ -55,7 +48,7 @@
         </div>
       </div>
       <div class="col-2">
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-success">Filter</button>
       </div>
     </form>
   </div>
@@ -66,11 +59,12 @@
         <thead>
           <tr>
             <th class="text-center">No</th>
-            <th class="text-center">Tanggal</th>
+            <th class="text-center">Invoice</th>
+            <th class="text-center">Pelanggan</th>
+            <th class="text-center">Tanggal Order</th>
+            <th class="text-center">Paket</th>
+            <th class="text-center">Berat</th>
             <th class="text-center">Total</th>
-            <th class="text-center">Keterangan</th>
-            <th class="text-center">Bukti</th>
-            <th class="text-center">Aksi</th>
           </tr>
         </thead>
       </table>
@@ -79,34 +73,10 @@
 
   <div class="mt-5 mb-3 text-right">
     <div class="text-right">
-      <h4>TOTAL PENGELUARAN</h4>
+      <h4>TOTAL PEMASUKAN</h4>
       <h3>Rp @{{ total }}</h3>
     </div>
   </div>
-
-  {{-- Galeri modal --}}
-  <div class="modal fade" id="galeriModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLabel">Galeri Pengeluaran</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div v-for="(bkt, index) in form.bukti" class="mb-3">
-            {{-- <h4>Foto @{{ index+1 }}</h4> --}}
-            <img :src="'/storage/pengeluaran/' + bkt" alt="bukti pengeluaran" class="img-thumbnail">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        </div>
-    </div>
-    </div>
-  </div>
-  {{-- End galeri modal --}}
 @endsection
 
 @section('custom-scripts')
@@ -116,8 +86,7 @@
     data: {
       form: {
         tgl_mulai: '',
-        tgl_selesai: '',
-        bukti: [],
+        tgl_selesai: ''
       },
       total: 0,
     },
@@ -155,17 +124,18 @@
           //   buttons: ['print', 'copyHtml5', 'csvHtml5', 'pdfHtml5', 'excelHtml5']
           // },
           ajax: {
-            url : "{{ route('pengeluaran.datatable') }}",
+            url : "{{ route('pemasukan.datatable') }}",
             dataSrc: "data"
           },
           lengthMenu: [[10, 50, 100, 1000, -1], [10, 50, 100, 1000, "Semua"]],
           columns: [
             { data: 'DT_RowIndex', searchable: false, orderable: false, className: 'text-center' },
-            { data: 'tgl', className: 'text-center' },
-            { data: 'total', className: 'text-center' },
-            { data: 'keterangan', className: 'text-left' },
-            { data: 'bukti', className: 'text-center' },
-            { data: 'aksi', className: 'text-center' },
+            { data: 'no_invoice', className: 'text-center' },
+            { data: 'pelanggan' },
+            { data: 'tgl_order', className: 'text-center' },
+            { data: 'paket', className: 'text-center' },
+            { data: 'berat', className: 'text-center' },
+            { data: 'total', className: 'text-right' },
           ],
           "bDestroy": true
         });
@@ -189,49 +159,7 @@
         .catch((e) => {
           console.log(e);
         });
-      },
-      clear(){
-        this.form.bukti = [];
-      },
-      galeri(data){
-        this.clear();
-        this.form.id = data.id;
-        this.form.bukti = data.bukti;
-        $('#galeriModal').modal('show');
-      },
-      delete(data){
-        this.form.id = data.id;
-        swal({
-          title: 'Apakah anda yakin?',
-          text: "Data pengeluaran akan dihapus!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#ff4444',
-          confirmButtonText: 'Ya',
-          cancelButtonText: 'Tidak',
-        }).then(function(result){
-          if(result.value){
-            axios.delete("{{ route('pengeluaran.delete', ':id') }}".replace(':id', app.form.id))
-            .then((response) => {
-              swal({
-                type: 'success',
-                title: 'Sukses',
-                text: 'Data pengeluaran berhasil dihapus!',
-              });
-              app.datatable();
-            })
-            .catch((e) => {
-              swal({
-                type: 'error',
-                title: 'Error',
-                text: 'Data pengeluaran gagal dihapus!',
-              })
-            });
-          }else if(result.dismiss == 'cancel'){
-
-          }
-        });
-      },
+      }
     }
   });
 </script>

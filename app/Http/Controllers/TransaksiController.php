@@ -77,6 +77,7 @@ class TransaksiController extends Controller
         $data = Transaksi::whereId($id)->first();
         $data->tgl_order = date('d F Y', strtotime($data->tgl_order));
         $data->tgl_selesai = date('d F Y', strtotime($data->tgl_selesai));
+        $data->foto = json_decode($data->foto);
 
         return view('pages.transaksi.edit', compact('transaksi', 'pelanggan', 'paket', 'last_id', 'data'));
     }
@@ -92,6 +93,19 @@ class TransaksiController extends Controller
             'total' => 'required',
         ]);
 
+        $transaksi = Transaksi::whereId($id)->first();
+        $transaksi->foto = json_decode($transaksi->foto);
+
+        $files= count($transaksi->foto) > 0 ? $transaksi->foto : [];
+
+        if ($request->file) {
+            foreach ($request->file('file') as $file) {
+                $fileName = $file->getClientOriginalName();
+                $file->storeAs('public/transaksi', $fileName);
+                array_push($files, $fileName);
+            }
+        }
+
         Transaksi::whereId($id)->update([
             'no_invoice' => $request->invoice,
             'tgl_order' => date('Y-m-d', strtotime($request->tgl_order)),
@@ -100,11 +114,27 @@ class TransaksiController extends Controller
             'paket_id' => $request->paket_id,
             'berat' => $request->berat,
             'total' => $request->total,
+            'foto' => json_encode($files),
         ]);
+
+        $request->session()->flash('update', true);
+
+        return redirect()->route('transaksi.index');
     }
 
     public function delete(Request $request, $id) {
         Transaksi::destroy($id);
+    }
+
+    public function deleteFile(Request $request, $id, $index)
+    {
+        $item = Transaksi::whereId($id)->first();
+        $data = json_decode($item->foto);
+        array_splice($data, $index, 1);
+
+        Transaksi::whereId($id)->update([
+            'foto' => json_encode($data)
+        ]);
     }
 
     public function updateStatus(Request $request, $id) {
@@ -204,5 +234,14 @@ class TransaksiController extends Controller
         $transaksi->foto = json_decode($transaksi->foto);
 
         return $transaksi;
+    }
+
+    public function download($id, $index){
+        $item = Transaksi::whereId($id)->firstOrFail();
+        $item->foto = json_decode($item->foto);
+        $link = $item->foto[$index];
+        $unduh = Storage::url('public/transaksi/'.$link);
+
+        return response()->download(public_path($unduh));
     }
 }
