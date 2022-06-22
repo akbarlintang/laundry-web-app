@@ -103,9 +103,9 @@
             <li class="nav-item {{ active_class(['admin/master/pemasukan']) }}">
               <a class="nav-link" href="{{ route('pemasukan.index') }}">Pemasukan</a>
             </li>
-            {{-- <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
-              <a class="nav-link" href="{{ route('karyawan.index') }}">Pengeluaran</a>
-            </li> --}}
+            <li class="nav-item {{ active_class(['admin/master/pengeluaran']) }}">
+              <a class="nav-link" href="{{ route('pengeluaran.index') }}">Pengeluaran</a>
+            </li>
             <li class="nav-item {{ active_class(['admin/master/karyawan']) }}">
               <a class="nav-link" href="{{ route('karyawan.index') }}">Karyawan</a>
             </li>

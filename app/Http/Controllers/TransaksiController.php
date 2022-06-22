@@ -165,8 +165,8 @@ class TransaksiController extends Controller
         ->editColumn("aksi", function($item){
             if (auth()->user()->Role->id == 1 || auth()->user()->Role->nama == 'Admin') {
                 $aksi = "<div class='text-center'>
-                <a href='". route('transaksi.edit', $item->id)."' class='btn btn-sm btn-warning'  title='Edit' disabled><i class='mdi mdi-pencil'></i></a>
-                <a href='javascript:;' onclick='app.delete(".$item.")' class='btn btn-sm btn-danger'  title='Hapus'><i class='mdi mdi-delete'></i></a>
+                <a href='". route('transaksi.edit', $item->id)."' class='btn btn-sm btn-warning' title='Edit'><i class='mdi mdi-pencil'></i></a>
+                <a href='javascript:;' onclick='app.delete(".$item.")' class='btn btn-sm btn-danger' title='Hapus'><i class='mdi mdi-delete'></i></a>
             </div>";
             } else {
                 $aksi = "<div class='text-center'>
@@ -186,12 +186,8 @@ class TransaksiController extends Controller
         })
         ->editColumn("foto", function($item){
             if ($item->foto) {
-                // foreach ($item->foto as $key => $value) {
-                //     return "<img src='". asset('/storage/transaksi/'.$value) ."' alt='foto barang' style='width: 200px; height: 200px;'>";
-                // }
-                return "<a href='javascript:;' onclick='app.galeri(".$item.")' class=''>Galeri</a>";
+                return "<a href='javascript:;' onclick='app.galeri(".$item.")' class='btn btn-sm btn-primary' title='Galeri'><i class='mdi mdi-image'></i></a>";
             } else {
-                // return "<a href='javascript:;' onclick='app.pembayaran(".$item.")' class='btn btn-sm btn-danger'>Belum Lunas</a>";
                 return "-";
             }
         })
