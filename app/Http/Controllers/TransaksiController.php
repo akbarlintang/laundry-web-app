@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\{Transaksi, HistoryTransaksi, Pelanggan, Paket, Status};
 use Session;
+use PDF;
 
 class TransaksiController extends Controller
 {
@@ -195,11 +196,13 @@ class TransaksiController extends Controller
         ->editColumn("aksi", function($item){
             if (auth()->user()->Role->id == 1 || auth()->user()->Role->nama == 'Admin') {
                 $aksi = "<div class='text-center'>
+                <a href='".route("transaksi.cetak", $item->id)."' target='_blank' class='btn btn-primary btn-sm mx-1' title='Cetak Formulir'><i class='mdi mdi-printer'></i></a>
                 <a href='". route('transaksi.edit', $item->id)."' class='btn btn-sm btn-warning' title='Edit'><i class='mdi mdi-pencil'></i></a>
                 <a href='javascript:;' onclick='app.delete(".$item.")' class='btn btn-sm btn-danger' title='Hapus'><i class='mdi mdi-delete'></i></a>
             </div>";
             } else {
                 $aksi = "<div class='text-center'>
+                <a href='".route("transaksi.cetak", $item->id)."' target='_blank' class='btn btn-primary btn-sm mx-1' title='Cetak Formulir'><i class='mdi mdi-printer'></i></a>
                 <button class='btn btn-sm btn-warning' title='Edit' disabled><i class='mdi mdi-pencil'></i></button>
                 <button class='btn btn-sm btn-danger' title='Hapus' disabled><i class='mdi mdi-delete'></i></button>
             </div>";
@@ -243,5 +246,12 @@ class TransaksiController extends Controller
         $unduh = Storage::url('public/transaksi/'.$link);
 
         return response()->download(public_path($unduh));
+    }
+
+    public function cetak($id){
+        $transaksi = Transaksi::whereId($id)->first();
+
+        $pdf = PDF::loadview('pages.transaksi.pdf', compact('transaksi'))->setPaper('A4','portrait');
+        return $pdf->stream();
     }
 }

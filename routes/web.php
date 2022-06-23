@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::delete('/transaksi/file/{id}/{index}', 'TransaksiController@deleteFile')->name('transaksi.file.delete');
         Route::get('/transaksi/datatable', 'TransaksiController@datatable')->name('transaksi.datatable');
         Route::get('/transaksi/download/{id}/{index}', 'TransaksiController@download')->name('transaksi.download');
+        Route::get('/transaksi/cetak/{id}', 'TransaksiController@cetak')->name('transaksi.cetak');
 
         // Pemasukan
         Route::get('/pemasukan', 'PemasukanController@index')->name('pemasukan.index');
