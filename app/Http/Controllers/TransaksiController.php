@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Transaksi, HistoryTransaksi, Pelanggan, Paket, Status};
+use App\{Transaksi, HistoryTransaksi, Pelanggan, Paket, Status, JenisCucian};
 use Session;
 use PDF;
 
@@ -20,11 +20,13 @@ class TransaksiController extends Controller
     public function create() {
         $pelanggan = Pelanggan::get();
         $paket = Paket::get();
+        $jenis = JenisCucian::get();
+
         $transaksi = Transaksi::get();
         $last = Transaksi::orderBy('id', 'DESC')->first();
         $last_id = $last ? $last->id : '1';
 
-        return view('pages.transaksi.create', compact('transaksi', 'pelanggan', 'paket', 'last_id'));
+        return view('pages.transaksi.create', compact('transaksi', 'pelanggan', 'paket', 'jenis', 'last_id'));
     }
 
     public function store(Request $request) {
@@ -47,12 +49,29 @@ class TransaksiController extends Controller
             }
         }
 
+        $jenis = [];
+        foreach ($request->jenis_id as $index => $jns) {
+            $nama_jns = JenisCucian::whereId($jns)->first()->nama;
+            $temp = [
+                'id' => $jns,
+                'nama' => $nama_jns,
+            ];
+
+            foreach ($request->jumlah as $key => $jml) {
+                if ($key == $index) {
+                    $temp['jumlah'] = $jml;
+                }
+            }
+            array_push($jenis, $temp);
+        }
+
         Transaksi::create([
             'no_invoice' => $request->invoice,
             'tgl_order' => date('Y-m-d', strtotime($request->tgl_order)),
             'tgl_selesai' => date('Y-m-d', strtotime($request->tgl_selesai)),
             'pelanggan_id' => $request->pelanggan_id,
             'paket_id' => $request->paket_id,
+            'jenis' => json_encode($jenis),
             'berat' => $request->berat,
             'total' => $request->total,
             'pembayaran' => 'belum-lunas',
@@ -196,13 +215,13 @@ class TransaksiController extends Controller
         ->editColumn("aksi", function($item){
             if (auth()->user()->Role->id == 1 || auth()->user()->Role->nama == 'Admin') {
                 $aksi = "<div class='text-center'>
-                <a href='".route("transaksi.cetak", $item->id)."' target='_blank' class='btn btn-primary btn-sm mx-1' title='Cetak Formulir'><i class='mdi mdi-printer'></i></a>
+                <a href='".route("transaksi.cetak", $item->id)."' target='_blank' class='btn btn-info btn-sm mx-1' title='Cetak Formulir'><i class='mdi mdi-printer'></i></a>
                 <a href='". route('transaksi.edit', $item->id)."' class='btn btn-sm btn-warning' title='Edit'><i class='mdi mdi-pencil'></i></a>
                 <a href='javascript:;' onclick='app.delete(".$item.")' class='btn btn-sm btn-danger' title='Hapus'><i class='mdi mdi-delete'></i></a>
             </div>";
             } else {
                 $aksi = "<div class='text-center'>
-                <a href='".route("transaksi.cetak", $item->id)."' target='_blank' class='btn btn-primary btn-sm mx-1' title='Cetak Formulir'><i class='mdi mdi-printer'></i></a>
+                <a href='".route("transaksi.cetak", $item->id)."' target='_blank' class='btn btn-info btn-sm mx-1' title='Cetak Formulir'><i class='mdi mdi-printer'></i></a>
                 <button class='btn btn-sm btn-warning' title='Edit' disabled><i class='mdi mdi-pencil'></i></button>
                 <button class='btn btn-sm btn-danger' title='Hapus' disabled><i class='mdi mdi-delete'></i></button>
             </div>";
@@ -236,6 +255,11 @@ class TransaksiController extends Controller
         $transaksi->pembayaran = ucwords(str_replace('-', ' ',$transaksi->pembayaran));
         $transaksi->foto = json_decode($transaksi->foto);
 
+        foreach($transaksi->history as $his){
+            $his->date = date('d F Y, H:i', strtotime($his->created_at));
+            $his->status = $his->Status;
+        }
+
         return $transaksi;
     }
 
@@ -250,8 +274,12 @@ class TransaksiController extends Controller
 
     public function cetak($id){
         $transaksi = Transaksi::whereId($id)->first();
+        $transaksi->jenis = json_decode($transaksi->jenis);
+
+        // return $transaksi->jenis;
+        // return $transaksi->tgl_order;
 
         $pdf = PDF::loadview('pages.transaksi.pdf', compact('transaksi'))->setPaper('A4','portrait');
-        return $pdf->stream();
+        return $pdf->stream("invoice-".$transaksi->no_invoice.".pdf");
     }
 }

@@ -92,6 +92,31 @@
             </div>
           </div>
         </div>
+
+        <h4 class="text-center mt-5 mb-3">Jenis Cucian</h4>
+
+        <div v-for="(key, index) in form.jenis" :key="`formJenis-${index}`">
+          <div class="form-group row">
+            <label for="jenis_id" class="col-sm-3 col-form-label">Jenis</label>
+            <div class="col-sm-7">
+              <select name="jenis_id[]" id="jenis_id" class="form-control custom-select" v-model="key.jenis_id" required>
+                <option value="" hidden disabled>Pilih Jenis Cucian</option>
+                <option v-for="jns in jenis" :value="jns.id">@{{ jns.nama }}</option>
+              </select>
+            </div>
+            <div class="col-lg-2 align-middle">
+              <span class="btn btn-success btn-sm" @click="addJenisField(key, form.jenis)">Tambah</span>
+              <span class="btn btn-danger btn-sm" @click="removeField(index, form.jenis)" v-show="form.jenis.length > 1">Hapus</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="jumlah" class="col-sm-3 col-form-label">Jumlah</label>
+            <div class="col-sm-7 input-group">
+              <input type="number" class="form-control" name="jumlah[]" id="jumlah" v-model="key.jumlah" placeholder="Masukkan total jumlah transaksi" required>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group row mt-5">
           <div class="col-sm-5 text-left">
             <div>
@@ -126,18 +151,25 @@
         paket_id: '',
         paket_harga: '',
         paket_nama: '',
+        jenis_id: '',
         berat: '',
         total: 0,
         file: '',
+        jenis: '',
       },
       pelanggan: @json($pelanggan),
-      paket: @json($paket)
+      paket: @json($paket),
+      jenis: @json($jenis)
     },
     mounted() {
       this.form.tgl_order = "{{ date('d F Y') }}";
 
       this.form.file = [{
         val: '',
+      }];
+
+      this.form.jenis = [{
+        jenis_id: '',
       }];
 
       $('#pelanggan_id').select2({
@@ -152,6 +184,13 @@
         width: "100%",
       }).on("change", function (e) { 
         app.getPaket();
+      });
+
+      $('#jenis_id').select2({
+        placeholder: "Pilih jenis",
+        width: "100%",
+      }).on("change", function (e) { 
+        app.getJenis();
       });
 
       $('#berat').on("input", function (e) {
@@ -219,6 +258,11 @@
       addField(value, fieldType) {
         fieldType.push({
             val: '',
+        });
+      },
+      addJenisField(value, fieldType) {
+        fieldType.push({
+            jenis_id: '',
         });
       },
       store(){

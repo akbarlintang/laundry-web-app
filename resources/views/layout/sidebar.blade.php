@@ -126,6 +126,9 @@
             <li class="nav-item {{ active_class(['admin/master/paket']) }}">
               <a class="nav-link" href="{{ route('paket.index') }}">Paket</a>
             </li>
+            <li class="nav-item {{ active_class(['admin/master/jenis']) }}">
+              <a class="nav-link" href="{{ route('jenis.index') }}">Jenis Cucian</a>
+            </li>
             <li class="nav-item {{ active_class(['admin/master/status']) }}">
               <a class="nav-link" href="{{ route('status.index') }}">Status</a>
             </li>

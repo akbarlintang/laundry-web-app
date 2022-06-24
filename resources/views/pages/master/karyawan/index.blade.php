@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-8">
       <h4 class="font-weight-bold py-3 mb-4">
-        Pengaturan Karyawan
+        Konfigurasi Karyawan
       </h4>
     </div>
     <div class="col-4 text-right my-auto">

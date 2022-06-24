@@ -14,6 +14,10 @@
 Route::get('/','LandingPageController@cekNota');
 Route::get('/cek-nota','LandingPageController@cekNota');
 Route::post('/transaksi/cari', 'TransaksiController@cari')->name('transaksi.cari');
+Route::get('/transaksi/cetak/{id}', 'TransaksiController@cetak')->name('transaksi.cetak');
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+});
 
 Route::get('/dashboard','DashboardController@index');
 
@@ -46,6 +50,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('/pemasukan/filter', 'PemasukanController@filter')->name('pemasukan.filter');
         Route::get('/pemasukan/total', 'PemasukanController@total')->name('pemasukan.total');
         Route::get('/pemasukan/datatable', 'PemasukanController@datatable')->name('pemasukan.datatable');
+        Route::get('/pemasukan/export_excel', 'PemasukanController@export')->name('pemasukan.export');
 
         // Pengeluaran
         Route::get('/pengeluaran', 'PengeluaranController@index')->name('pengeluaran.index');
@@ -59,6 +64,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::delete('/pengeluaran/file/{id}/{index}', 'PengeluaranController@deleteFile')->name('pengeluaran.file.delete');
         Route::get('/pengeluaran/datatable', 'PengeluaranController@datatable')->name('pengeluaran.datatable');
         Route::get('/pengeluaran/download/{id}/{index}', 'PengeluaranController@download')->name('pengeluaran.download');
+        Route::get('/pengeluaran/export_excel', 'PengeluaranController@export')->name('pengeluaran.export');
 
         // Laporan keuangan
         Route::get('/laporan-keuangan', 'LaporanKeuanganController@index')->name('laporan-keuangan.index');
@@ -95,6 +101,13 @@ Route::group(['prefix' => 'admin'], function(){
             Route::delete('/paket/{id}', 'PaketController@delete')->name('paket.delete');
             Route::get('/paket/get/{id}', 'PaketController@get')->name('paket.get');
             Route::get('/paket/datatable', 'PaketController@datatable')->name('paket.datatable');
+
+            // Jenis Cucian
+            Route::get('/jenis', 'JenisController@index')->name('jenis.index');
+            Route::post('/jenis', 'JenisController@store')->name('jenis.store');
+            Route::post('/jenis/{id}', 'JenisController@update')->name('jenis.update');
+            Route::delete('/jenis/{id}', 'JenisController@delete')->name('jenis.delete');
+            Route::get('/jenis/datatable', 'JenisController@datatable')->name('jenis.datatable');
 
             // Status
             Route::get('/status', 'StatusController@index')->name('status.index');

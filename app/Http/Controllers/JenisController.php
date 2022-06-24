@@ -4,68 +4,53 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\{Paket};
+use App\JenisCucian;
 
-class PaketController extends Controller
+class JenisController extends Controller
 {
     public function index() {
-        $paket = Paket::get();
-        return view('pages.master.paket.index', compact('paket'));
+        return view('pages.master.jenis.index');
     }
 
     public function store(Request $request) {
-        // return $request;
         $request->validate([
             'nama' => 'required',
-            'harga' => 'numeric|required',
         ]);
 
-        Paket::create([
+        JenisCucian::create([
             'nama' => $request->nama,
-            'harga' => $request->harga,
         ]);
     }
 
     public function update(Request $request, $id) {
         $request->validate([
             'nama' => 'required',
-            'harga' => 'required',
         ]);
 
-        Paket::whereId($id)->update([
+        JenisCucian::whereId($id)->update([
             'nama' => $request->nama,
-            'harga' => $request->harga,
         ]);
     }
 
     public function delete(Request $request, $id) {
-        Paket::destroy($id);
+        JenisCucian::destroy($id);
     }
 
     public function query($request) {
-        $query = Paket::get();
+        $query = JenisCucian::get();
         return $query;
     }
 
     public function datatable(Request $request){
         return datatables($this->query($request))
         ->addIndexColumn()
-        ->editColumn("harga", function($item){
-            return "Rp ".number_format($item->harga);
-        })
         ->editColumn("aksi", function($item){
             return "<div class='text-center'>
                 <a href='javascript:;' onclick='app.edit(".$item.")' class='btn btn-sm btn-warning'  title='Edit'><i class='mdi mdi-pencil'></i></a>
                 <a href='javascript:;' onclick='app.delete(".$item.")' class='btn btn-sm btn-danger'  title='Hapus'><i class='mdi mdi-delete'></i></a>
             </div>";
         })
-        ->rawColumns(['harga', 'aksi'])
+        ->rawColumns(['aksi'])
         ->toJson();
-    }
-
-    public function get($id){
-        $data = Paket::find($id);
-        $data->nama = strtoupper(str_replace(' ', '-', $data->nama));
-        return response($data);
     }
 }

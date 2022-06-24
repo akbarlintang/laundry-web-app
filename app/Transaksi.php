@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transaksi extends Model
 {
     protected $fillable = [
-        'no_invoice', 'pelanggan_id', 'berat', 'paket_id', 'total', 'pembayaran', 'foto', 'tgl_order', 'tgl_selesai'
+        'no_invoice', 'pelanggan_id', 'berat', 'paket_id', 'jenis', 'total', 'pembayaran', 'foto', 'tgl_order', 'tgl_selesai'
     ];
 
     public function History()

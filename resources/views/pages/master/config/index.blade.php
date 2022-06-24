@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-8">
       <h4 class="font-weight-bold py-3 mb-4">
-        Pengaturan Config
+        Konfigurasi Landing Page
       </h4>
     </div>
   </div>

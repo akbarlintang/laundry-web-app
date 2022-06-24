@@ -5,32 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Transaksi;
+use App\Exports\PemasukanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PemasukanController extends Controller
 {
     public function index(Request $request) {
-        if ($request->session()->has('pemasukan_mulai')) {
-            $pemasukan_mulai = date('d F Y', strtotime(session('pemasukan_mulai')));
-            $pemasukan_selesai = date('d F Y', strtotime(session('pemasukan_selesai')));
-
-            $transaksi = Transaksi::whereBetween('tgl_order', [$pemasukan_mulai, $pemasukan_selesai])->get();
-        } else {
-            $transaksi = Transaksi::get();
-            $pemasukan_mulai = null;
-            $pemasukan_selesai = null;
-        }
-        return view('pages.pemasukan.index', compact('pemasukan_mulai', 'pemasukan_selesai'));
+        $request->session()->forget(['pemasukan_mulai', 'pemasukan_selesai']);
+        return view('pages.pemasukan.index');
     }
 
     public function query($request) {
         if ($request->session()->has('pemasukan_mulai')) {
             $pemasukan_mulai = session('pemasukan_mulai');
             $pemasukan_selesai = session('pemasukan_selesai');
-            $request->session()->reflash();
 
-            $query = Transaksi::whereBetween('tgl_order', [$pemasukan_mulai, $pemasukan_selesai])->get();
+            $query = Transaksi::whereBetween('tgl_order', [$pemasukan_mulai, $pemasukan_selesai])->where('pembayaran', 'lunas')->get();
         } else {
-            $query = Transaksi::get();
+            $query = Transaksi::where('pembayaran', 'lunas')->get();
         }
         return $query;
     }
@@ -61,8 +53,8 @@ class PemasukanController extends Controller
         $pemasukan_mulai = date('Y-m-d', strtotime($request->tgl_mulai));
         $pemasukan_selesai = date('Y-m-d', strtotime($request->tgl_selesai));
 
-        $request->session()->flash('pemasukan_mulai', $pemasukan_mulai);
-        $request->session()->flash('pemasukan_selesai', $pemasukan_selesai);
+        $request->session()->put('pemasukan_mulai', $pemasukan_mulai);
+        $request->session()->put('pemasukan_selesai', $pemasukan_selesai);
     }
 
     public function total(Request $request){
@@ -86,4 +78,9 @@ class PemasukanController extends Controller
         }
         return $total;
     }
+
+    public function export(Request $request)
+	{
+		return Excel::download(new PemasukanExport($request), 'pemasukan.xlsx');
+	}
 }

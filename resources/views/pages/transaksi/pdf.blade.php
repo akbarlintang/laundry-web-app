@@ -5,16 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Promosi Karyawan</title>
+    <title>Invoice Milla Laundry</title>
     <style>
         body {
             margin: -40px;
-            /* ashiaap EZ*/
             font-family: Arial, Helvetica, sans-serif;
         }
         
-        .f16 {
-            font-size: 16px;
+        .f20 {
+            font-size: 20px;
         }
 
         .f14 {
@@ -42,163 +41,105 @@
         <table style="border: 0px solid black; width: 100%; border-collapse: collapse;" class="f12">
             <thead>
                 <tr>
-                    <th rowspan="3" style="padding: 10px; border: 1px solid black; padding-bottom: 10px; width: 5%;">LOGO PERUSAHAAN</th>
-                    <th colspan="5" style="padding: 10px; border: 1px solid black; padding-bottom: 10px;">
-                        <h1>FORM PERJALANAN KARIR KARYAWAN</h1>
-                        <br>
-                        <span>Nomor/HC/PRIR-UPS/Bulan/Tahun</span>
-                    </th>
+                    <th colspan="6" style="padding-top: 30px; padding-bottom: 30px;"><div class="f20">INVOICE MILLA LAUNDRY & DRY CLEANING</div></th>
                 </tr>
-                <tr>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">Halaman</th>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">Revisi Ke</th>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">No. Form</th>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">Tanggal Pengesahan Form</th>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">Diterbitkan Oleh</th>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">01 dari 01</th>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">0</th>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">HC/3.1/1a/20</th>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">-</th>
-                    <th style="border: 1px solid black; padding: 10px; text-align:center">HC</th>
-                </tr>
+                {{-- <tr>
+                    <th colspan="6" style="padding-bottom: 30px;"><div class="f14">No. Invoice : {{ $transaksi->no_invoice }}</div></th>
+                </tr> --}}
             </thead>
             <tbody>
-                <tr>
-                    <td colspan="6" style="border: 1px solid black; padding: 7px 15px; background-color: black; color: white; font-weight: bold;" class="f14">Karyawan yang diajukan</td>
-                </tr>
-                <tr class="f14">
-                    <td colspan="6" style="border: 1px solid black;">
-                        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+                <tr class="f12">
+                    <td colspan="6" style="">
+                        <table style="width: 100%;">
                             <tbody>
                                 <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 15%;">
-                                        Nama
+                                    <td style="padding: 10px; width: 30%;">
+                                        No. Invoice
                                     </td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 5%;">:</td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;"></td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 15%;">
-                                        Jabatan
-                                    </td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 5%;">:</td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;"></td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 15%;">
-                                        Divisi
-                                    </td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 5%;">:</td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;"></td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 15%;">
-                                        Cabang
-                                    </td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 5%;">:</td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">-</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 15%;">
-                                        Tanggal Masuk
-                                    </td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px; width: 5%;">:</td>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="border: 1px solid black; padding: 7px 15px; background-color: black; color: white; font-weight: bold;" class="f14">Bersama ini saya selaku atasan langsung dari yang bersangkutan bermaksud untuk merekomendasikan karir kerja karyawan</td>
-                </tr>
-                <tr class="f14">
-                    <td colspan="6" style="border: 1px solid black;">
-                        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
-                            <tbody>
-                                <tr>
-                                    <td rowspan="2" style="text-align: center; vertical-align: middle;">PERIHAL</td>
-                                    <td style="border: 1px solid black; padding: 10px;">
-                                        <input id="checkid" type="checkbox" style="vertical-align: middle"/>
-                                        <label for="checkid" style="vertical-align: middle">Promosi / Kenaikan Jabatan</label>
-                                    </td>
-                                    <td style="border: 1px solid black; padding: 10px;">
-                                        <input id="checkid" type="checkbox" style="vertical-align: middle"/>
-                                        <label for="checkid" style="vertical-align: middle">Rotasi (Divisi dan Level sama)</label>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ $transaksi->no_invoice }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border: 1px solid black; padding: 10px;">
-                                        <input id="checkid" type="checkbox" style="vertical-align: middle"/>
-                                        <label for="checkid" style="vertical-align: middle">Mutasi (Divisi dan Level sama)</label>
+                                    <td style="padding: 10px; width: 30%;">
+                                        Tanggal Laundry
                                     </td>
-                                    <td style="border: 1px solid black; padding: 10px;">
-                                        <input id="checkid" type="checkbox" style="vertical-align: middle"/>
-                                        <label for="checkid" style="vertical-align: middle">Demosi / Penurunan Jabatan</label>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="border: 1px solid black; padding: 7px 15px; background-color: black; color: white; font-weight: bold;" class="f14">
-                        <table style="width: 100%">
-                            <tr style="text-align: center">
-                                <td style="width: 40%">PERUBAHAN JABATAN</td>
-                                <td style="width: 30%">JABATAN LAMA</td>
-                                <td style="width: 30%">JABATAN BARU</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr class="f14">
-                    <td colspan="6" style="border: 1px solid black;">
-                        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
-                            <tr>
-                                <td style="width: 40%; border: 1px solid black; padding: 10px;">Jabatan</td>
-                                <td style="width: 30%; text-align: center; border: 1px solid black; padding: 10px;"></td>
-                                <td style="width: 30%; text-align: center; border: 1px solid black; padding: 10px;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 40%; border: 1px solid black; padding: 10px;">Divisi</td>
-                                <td style="width: 30%; text-align: center; border: 1px solid black; padding: 10px;"></td>
-                                <td style="width: 30%; text-align: center; border: 1px solid black; padding: 10px;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 40%; border: 1px solid black; padding: 10px;">Cabang</td>
-                                <td style="width: 30%; text-align: center; border: 1px solid black; padding: 10px;">-</td>
-                                <td style="width: 30%; text-align: center; border: 1px solid black; padding: 10px;">-</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 40%; border: 1px solid black; padding: 10px;">Tanggal Efektif</td>
-                                <td colspan="2" style="text-align: center; border: 1px solid black; padding: 10px;">-</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="border: 1px solid black; padding: 7px 15px; background-color: black; color: white; font-weight: bold;" class="f14">Alasan pengambilan keputusan / pertimbangan terhadap usulan perubahan</td>
-                </tr>
-                <tr class="f14">
-                    <td colspan="6" style="border: 1px solid black;">
-                        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
-                            <tbody>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ date('d F Y', strtotime($transaksi->tgl_order)) }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
+                                    <td style="padding: 10px; width: 30%;">
+                                        Nama Pelanggan
+                                    </td>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ $transaksi->Pelanggan->nama }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
+                                    <td style="padding: 10px; width: 30%;">
+                                        No. Telp
+                                    </td>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ $transaksi->Pelanggan->no_hp }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; width: 30%;">
+                                        Alamat
+                                    </td>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ $transaksi->Pelanggan->alamat }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; width: 30%;">
+                                        Paket
+                                    </td>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ $transaksi->Paket->nama }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; width: 30%;">
+                                        Berat
+                                    </td>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ $transaksi->berat }} Kg
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; width: 30%;">
+                                        Tanggal Estimasi Selesai
+                                    </td>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ date('d F Y', strtotime($transaksi->tgl_selesai)) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; width: 30%;">
+                                        Status Pembayaran
+                                    </td>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        {{ ucwords(str_replace('-', ' ', $transaksi->pembayaran)) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; width: 30%;">
+                                        Total Harga
+                                    </td>
+                                    <td style="padding: 10px; width: 5%;">:</td>
+                                    <td style="padding: 10px;">
+                                        Rp {{ number_format($transaksi->total) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -206,135 +147,31 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6" style="border: 1px solid black; padding: 7px 15px; background-color: black; color: white; font-weight: bold;" class="f14">Uraikan prestasi karyawan selama bekerja</td>
+                    <td colspan="6" style="font-weight: bold; text-align: center; padding-top: 30px; padding-bottom: 20px;" class="f12">Daftar Cucian</td>
                 </tr>
-                <tr class="f14">
-                    <td colspan="6" style="border: 1px solid black;">
-                        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+                <tr class="f12">
+                    <td colspan="6" style="border: 1px solid black; padding: 20px;">
+                        <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Jenis Pakaian</th>
+                                    <th>Jumlah</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
+                                @isset($transaksi->jenis)
+                                    @foreach ($transaksi->jenis as $item)
+                                        <tr>
+                                            <td style="padding: 5px 10px; width: 70%; text-align: left;">
+                                                {{ $item->nama }}
+                                            </td>
+                                            <td style="padding: 5px 10px; text-align: center;">
+                                                {{ $item->jumlah }} pcs
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endisset
                             </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="border: 1px solid black; padding: 7px 15px; background-color: black; color: white; font-weight: bold;" class="f14">Uraikan kekurangan karyawan selama bekerja</td>
-                </tr>
-                <tr class="f14">
-                    <td colspan="6" style="border: 1px solid black;">
-                        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
-                            <tbody>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="border: 1px solid black; padding: 7px 15px; background-color: black; color: white; font-weight: bold;" class="f14">Sebutkan penganganan yang sudah dilakukan atas kekurangan karyawan tersebut</td>
-                </tr>
-                <tr class="f14">
-                    <td colspan="6" style="border: 1px solid black;">
-                        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
-                            <tbody>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        -
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 10px;">
-                                        Pengambilan keputusan ini sudah melalui tahap penilaian, evaluasi yang objective, wawancara langsung dengan yang bersangkutan sesuai standart dari perusahaan. Atas perhatiannya saya ucapkan terimakasih.
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="border: 1px solid black; padding: 7px 15px; background-color: black; color: white; font-weight: bold;" class="f14">
-                        <table style="width: 100%">
-                            <tr style="text-align: center;">
-                                <td style="width: 25%;">Tembusan</td>
-                                <td style="width: 25%;">Hormat Saya</td>
-                                <td style="width: 25%;">Mengetahui</td>
-                                <td style="width: 25%;">Menyetujui</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="border: 1px solid black;">
-                        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
-                            <tr>
-                                <td style="width: 25%; border: 1px solid black; padding: 5px;" rowspan="4">
-                                    <div>Cc.</div>
-                                    <div>1. Direktur</div>
-                                    <div>2. Divisi Baru</div>
-                                    <div>3. Cabang Baru</div>
-                                </td>
-                                <td colspan="2" style="text-align: center; border: 1px solid black; padding: 5px;">Manager</td>
-                                <td colspan="2" style="text-align: center; border: 1px solid black; padding: 5px;">Maginta</td>
-                                <td colspan="2" style="text-align: center; border: 1px solid black; padding: 5px;">Manager HC</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="border: 1px solid black; padding: 5px;">-</td>
-                                <td colspan="2" style="border: 1px solid black; padding: 5px;">-</td>
-                                <td colspan="2" style="border: 1px solid black; padding: 5px;">-</td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid black; padding: 5px;">Nama</td>
-                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                <td style="border: 1px solid black; padding: 5px;">Nama</td>
-                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                <td style="border: 1px solid black; padding: 5px;">Nama</td>
-                                <td style="border: 1px solid black; padding: 5px;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid black; padding: 5px;">Tanggal</td>
-                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                <td style="border: 1px solid black; padding: 5px;">Tanggal</td>
-                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                <td style="border: 1px solid black; padding: 5px;">Tanggal</td>
-                                <td style="border: 1px solid black; padding: 5px;"></td>
-                            </tr>
                         </table>
                     </td>
                 </tr>

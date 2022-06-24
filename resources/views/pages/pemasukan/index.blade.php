@@ -16,11 +16,11 @@
         Rekap Pemasukan
       </h4>
     </div>
-    {{-- <div class="col-4 text-right my-auto">
-      <a href="javascript:;" onclick="app.tambah()" class="btn btn-md btn-primary" data-toggle="modal" data-target="#tambahModal">
-        <i class="mdi mdi-plus"></i> Tambah
+    <div class="col-4 text-right my-auto">
+      <a href="{{ route('pemasukan.export') }}" class="btn btn-md btn-success" target="_blank">
+        <i class="mdi mdi-file-excel"></i> Export
       </a>
-    </div> --}}
+    </div>
   </div>
 
   @foreach ($errors->all() as $error)
@@ -35,7 +35,7 @@
         <div class="form-group row">
           <label for="tgl_mulai" class="col-sm-4 col-form-label">Tanggal Mulai</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="tgl_mulai" name="tgl_mulai" placeholder="Pilih tanggal mulai" value="{{ $pemasukan_mulai }}" readonly>
+            <input type="text" class="form-control" id="tgl_mulai" name="tgl_mulai" placeholder="Pilih tanggal mulai" readonly>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
         <div class="form-group row">
           <label for="tgl_selesai" class="col-sm-4 col-form-label">Tanggal Selesai</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="tgl_selesai" name="tgl_selesai" placeholder="Pilih tanggal selesai" value="{{ $pemasukan_selesai }}" readonly>
+            <input type="text" class="form-control" id="tgl_selesai" name="tgl_selesai" placeholder="Pilih tanggal selesai" readonly>
           </div>
         </div>
       </div>

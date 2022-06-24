@@ -6,22 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\{Pengeluaran, Transaksi};
+use App\Exports\PengeluaranExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PengeluaranController extends Controller
 {
     public function index(Request $request) {
-        if ($request->session()->has('pengeluaran_mulai')) {
-            $pengeluaran_mulai = date('d F Y', strtotime(session('pengeluaran_mulai')));
-            $pengeluaran_selesai = date('d F Y', strtotime(session('pengeluaran_selesai')));
-
-            $transaksi = Pengeluaran::whereBetween('tgl_order', [$pengeluaran_mulai, $pengeluaran_selesai])->get();
-        } else {
-            $transaksi = Pengeluaran::get();
-            $pengeluaran_mulai = null;
-            $pengeluaran_selesai = null;
-        }
-
-        return view('pages.pengeluaran.index', compact('pengeluaran_mulai', 'pengeluaran_selesai'));
+        $request->session()->forget(['pengeluaran_mulai', 'pengeluaran_selesai']);
+        return view('pages.pengeluaran.index');
     }
 
     public function create() {
@@ -29,7 +21,6 @@ class PengeluaranController extends Controller
     }
 
     public function store(Request $request) {
-        // return $request;
         $request->validate([
             'tgl' => 'required',
             'total' => 'required',
@@ -116,7 +107,6 @@ class PengeluaranController extends Controller
         if ($request->session()->has('pengeluaran_mulai')) {
             $pengeluaran_mulai = session('pengeluaran_mulai');
             $pengeluaran_selesai = session('pengeluaran_selesai');
-            $request->session()->reflash();
 
             $query = Pengeluaran::whereBetween('tgl_pengeluaran', [$pengeluaran_mulai, $pengeluaran_selesai])->get();
             foreach ($query as $q) {
@@ -128,7 +118,6 @@ class PengeluaranController extends Controller
                 $q->bukti = json_decode($q->bukti);
             }
         }
-
         
         return $query;
     }
@@ -160,11 +149,20 @@ class PengeluaranController extends Controller
     }
 
     public function filter(Request $request){
-        $pengeluaran_mulai = date('Y-m-d', strtotime($request->tgl_mulai));
-        $pengeluaran_selesai = date('Y-m-d', strtotime($request->tgl_selesai));
+        if ($request->tgl_mulai) {
+            $pengeluaran_mulai = date('Y-m-d', strtotime($request->tgl_mulai));
+        } else {
+            $pengeluaran_mulai = null;
+        }
 
-        $request->session()->flash('pengeluaran_mulai', $pengeluaran_mulai);
-        $request->session()->flash('pengeluaran_selesai', $pengeluaran_selesai);
+        if ($request->tgl_selesai) {
+            $pengeluaran_selesai = date('Y-m-d', strtotime($request->tgl_selesai));
+        } else {
+            $pengeluaran_selesai = null;
+        }
+
+        $request->session()->put('pengeluaran_mulai', $pengeluaran_mulai);
+        $request->session()->put('pengeluaran_selesai', $pengeluaran_selesai);
     }
 
     public function total(Request $request){
@@ -197,4 +195,9 @@ class PengeluaranController extends Controller
 
         return response()->download(public_path($unduh));
     }
+
+    public function export(Request $request)
+	{
+		return Excel::download(new PengeluaranExport($request), 'pengeluaran.xlsx');
+	}
 }

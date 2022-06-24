@@ -41,7 +41,6 @@
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center">
-        {{-- <img src="{{ asset('assets/landing/img/logo.png') }}" alt="logo"> --}}
         <img src="{{ asset('assets/landing/img/milla-laundry-logo.png') }}" alt="logo">
         {{-- <span>Milla Laundry</span> --}}
       </a>
@@ -49,7 +48,6 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          {{-- <li><a class="nav-link scrollto" href="#content">Cek Resi</a></li> --}}
           <li><a class="getstarted scrollto" href="#content">Cek Invoice</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -64,9 +62,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4 text-center">
-          {{-- <img src="{{ asset('assets/landing/img/hero-img.png') }}" class="img-fluid" alt=""> --}}
-          {{-- <link rel="icon" href="{{ asset('assets/landing/img/milla-laundry-logo.png') }}"> --}}
-          <img src="{{ asset('assets/landing/img/milla-laundry-logo.png') }}" class="img-fluid w-50" alt="logo">
+          <img src="{{ asset('assets/landing/img/milla-laundry-logo.png') }}" class="img-fluid w-50 py-3" alt="logo">
         </div>
         <div class="col-lg-8 d-flex flex-column justify-content-center px-5">
           <h1>{{ $config->where('key', 'hero-title')->first()->value }}</h1>
@@ -94,7 +90,7 @@
         </header>
 
         <div class="row">
-          <div class="col-6 mx-auto">
+          <div class="col-sm-6 mx-auto">
             <form @submit.prevent="cari">
               <div class="input-group mb-2">
                 <input type="text" class="form-control" id="invoice" name="invoice" v-model="invoice" placeholder="Masukkan nomor invoice transaksi">
@@ -111,7 +107,7 @@
           <div class="col-12 mx-auto table-responsive">
             <table class="table table-bordered table-hoverable">
               <thead>
-                <tr class="text-center">
+                <tr class="text-center align-middle">
                   <th>No. Invoice</th>
                   <th>Pelanggan</th>
                   <th>Tanggal Order</th>
@@ -120,6 +116,7 @@
                   <th>Berat</th>
                   <th>Total</th>
                   <th>Status Pembayaran</th>
+                  <th>Cetak Invoice</th>
                 </tr>
               </thead>
               <tbody>
@@ -132,6 +129,9 @@
                   <td>@{{ query.berat }} Kg</td>
                   <td>Rp @{{ query.total }}</td>
                   <td>@{{ query.pembayaran }}</td>
+                  <td>
+                    <a :href="'transaksi/cetak/'+query.id" target='_blank' class='btn btn-primary btn-sm mx-1' title='Cetak Formulir'><i class="bi bi-printer"></i></a>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -139,13 +139,13 @@
         </div>
 
         <div class="row mt-5" v-if="query.length != 0">
-          <div class="col-10 mx-auto">
+          <div class="col-sm-10 mx-auto">
             <div class="card">
-              <div class="card-body mx-5">
+              <div class="card-body mx-3">
                 <h4 class="text-center font-weight-bold mt-3 mb-5">Galeri Transaksi</h4>
                 
                 <div class="row">
-                  <div class="col-6 mb-3" v-for="(q, index) in query.foto">
+                  <div class="col-sm-6 mb-3" v-for="(q, index) in query.foto">
                     <img :src="'storage/transaksi/' + q" alt="foto barang" class="img-thumbnail">
                   </div>
                 </div>
@@ -155,9 +155,9 @@
         </div>
 
         <div class="row mt-5" v-if="query.length != 0">
-          <div class="col-10 mx-auto">
+          <div class="col-sm-10 mx-auto">
             <div class="card">
-              <div class="card-body mx-5">
+              <div class="card-body mx-3">
                 <h4 class="text-center font-weight-bold mt-3 mb-5">Log Pengerjaan</h4>
                 
                 <div class="step pb-5" v-for="q in query.history">
@@ -166,7 +166,7 @@
                     <div class="line"></div>
                   </div>
                   <div>
-                    <div class="title">@{{ q == null ? '' : q.waktu }}</div>
+                    <div class="title">@{{ q == null ? '' : q.date }}</div>
                     <div class="body">@{{ q == null ? '' : q.status.nama }}</div>
                   </div>
                 </div>
@@ -189,7 +189,7 @@
               <img src="{{ asset('assets/landing/img/milla-laundry-logo.png') }}" alt="logo">
               {{-- <span>Milla Laundry</span> --}}
             </a>
-            <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+            <p>{{ $config->where('key', 'footer-desc')->first()->value }}</p>
             <div class="social-links mt-3">
               <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
               <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -305,6 +305,7 @@
             const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
             query = response.data;
+            console.log(query);
             query.history.forEach(element => {
               date = new Date(element.created_at);
               waktu = date.getDate() + " " + bulan[date.getMonth()] + " " + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes();

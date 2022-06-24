@@ -68,12 +68,12 @@
       <div class="card-body">
         <div class="d-flex flex-md-column flex-xl-row flex-wrap justify-content-between align-items-md-center justify-content-xl-between">
           <div class="float-left">
-            <i class="mdi mdi-account-box-multiple text-info icon-lg"></i>
+            <i class="mdi mdi-cash-multiple text-info icon-lg"></i>
           </div>
           <div class="float-right">
-            <p class="mb-0 text-right">Jumlah Pegawai</p>
+            <p class="mb-0 text-right">Pengeluaran Bulan Ini</p>
             <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0">{{ count($pegawai) }}</h3>
+              <h3 class="font-weight-medium text-right mb-0">Rp {{ $pengeluaran }}</h3>
             </div>
           </div>
         </div>
@@ -83,9 +83,18 @@
     </div>
   </div>
 </div>
-<div class="row">
+
+{{-- Chart pemasukan --}}
+<div class="row mb-3">
   <div class="col-md-12">
     <canvas id="line-chart" width="100%" height="30%"></canvas>
+  </div>
+</div>
+
+{{-- Chart pengeluaran --}}
+<div class="row">
+  <div class="col-md-12">
+    <canvas id="line-chart-keluar" width="100%" height="30%"></canvas>
   </div>
 </div>
 @endsection
@@ -95,16 +104,37 @@
   {!! Html::script('/assets/plugins/jquery-sparkline/jquery.sparkline.min.js') !!}
 
   <script>
-    var label = @json($data);
-    console.log(label);
+    // Chart pemasukan
     new Chart(document.getElementById("line-chart"), {
+      type: 'line',
+      data: {
+        labels: @json($label),
+        datasets: [{ 
+            data: @json($data),
+            label: "Pemasukan",
+            borderColor: "#00C851",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Pemasukan bulanan'
+        }
+      }
+    });
+  // End chart pemasukan
+
+  // Chart Pengeluaran
+  new Chart(document.getElementById("line-chart-keluar"), {
     type: 'line',
     data: {
-      labels: @json($label),
+      labels: @json($label_klr),
       datasets: [{ 
-          data: @json($data),
-          label: "Pemasukan",
-          borderColor: "#00C851",
+          data: @json($data_klr),
+          label: "Pengeluaran",
+          borderColor: "#e91e63",
           fill: false
         }
       ]
@@ -112,18 +142,14 @@
     options: {
       title: {
         display: true,
-        text: 'Pemasukan bulanan'
+        text: 'Pengeluaran bulanan'
       }
     }
   });
+  // End chart Pengeluaran
   </script>
 @endpush
 
 @push('custom-scripts')
   {!! Html::script('/assets/js/dashboard.js') !!}
-
-  {{-- <script>
-  const CHART = $('#myChart');
-  console.log(CHART);
-  </script> --}}
 @endpush
