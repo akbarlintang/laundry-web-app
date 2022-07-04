@@ -14,7 +14,7 @@
             <i class="mdi mdi-cube text-danger icon-lg"></i>
           </div>
           <div class="float-right">
-            <p class="mb-0 text-right">Total Transaksi Keseluruhan</p>
+            <p class="mb-0 text-right">Total Seluruh Transaksi</p>
             <div class="fluid-container">
               <h3 class="font-weight-medium text-right mb-0">{{ count($transaksi) }}</h3>
             </div>

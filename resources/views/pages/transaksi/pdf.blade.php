@@ -32,6 +32,17 @@
             page-break-after: always;
             page-break-inside:avoid;
         }
+
+        footer {
+            position: fixed; 
+            bottom: 0cm; 
+            left: 0cm; 
+            right: 0cm;
+            height: 0.5cm;
+
+            /** Extra personal styles **/
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -178,6 +189,10 @@
             </tbody>
         </table>
     </div>
+
+    <footer class="f10">
+        Anda dapat cek progress transaksi dengan nomor invoice melalui www.millalaundry.id
+    </footer>
 </body>
 
 </html>

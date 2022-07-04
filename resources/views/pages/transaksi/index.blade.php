@@ -181,7 +181,7 @@
             url : "{{ route('transaksi.datatable') }}",
             dataSrc: "data"
           },
-          "order": [[ 2, "desc" ]],
+          // "order": [[ 2, "desc" ]],
           lengthMenu: [[10, 50, 100, 1000, -1], [10, 50, 100, 1000, "Semua"]],
           columns: [
             { data: 'no_invoice', className: 'text-center' },

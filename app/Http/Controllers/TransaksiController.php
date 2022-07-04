@@ -180,7 +180,7 @@ class TransaksiController extends Controller
     }
 
     public function query($request) {
-        $query = Transaksi::all();
+        $query = Transaksi::with('History', 'Pelanggan', 'Paket')->orderBy('tgl_order', 'DESC')->get();
         foreach($query as $q){
             $q->status = HistoryTransaksi::with('Status')->where('transaksi_id', $q->id)->orderBy('id', 'DESC')->first();
             $q->foto = json_decode($q->foto);

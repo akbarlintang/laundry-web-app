@@ -16,11 +16,11 @@
         Laporan Keuangan
       </h4>
     </div>
-    {{-- <div class="col-4 text-right my-auto">
-      <a href="javascript:;" onclick="app.tambah()" class="btn btn-md btn-primary" data-toggle="modal" data-target="#tambahModal">
-        <i class="mdi mdi-plus"></i> Tambah
+    <div class="col-4 text-right my-auto">
+      <a href="{{ route('laporan-keuangan.export') }}" class="btn btn-md btn-success" target="_blank">
+        <i class="mdi mdi-file-excel"></i> Export
       </a>
-    </div> --}}
+    </div>
   </div>
 
   @foreach ($errors->all() as $error)

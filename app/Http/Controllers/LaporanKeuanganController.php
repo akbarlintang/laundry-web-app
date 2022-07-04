@@ -8,6 +8,8 @@ use App\{Transaksi, Pengeluaran};
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use App\Exports\KeuanganExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanKeuanganController extends Controller
 {
@@ -127,6 +129,9 @@ class LaporanKeuanganController extends Controller
 
             // return $query;
         }
+
+        // $request->session()->forget(['laporan_mulai', 'laporan_selesai']);
+        $request->session()->reflash();
         return view('pages.laporan-keuangan.index', compact('laporan_mulai', 'laporan_selesai', 'pemasukan', 'pengeluaran', 'query', 'total_masuk', 'total_keluar', 'total_untung'));
     }
 
@@ -134,7 +139,6 @@ class LaporanKeuanganController extends Controller
         if ($request->session()->has('pemasukan_mulai')) {
             $pemasukan_mulai = session('pemasukan_mulai');
             $pemasukan_selesai = session('pemasukan_selesai');
-            $request->session()->reflash();
 
             $query = Transaksi::whereBetween('tgl_order', [$pemasukan_mulai, $pemasukan_selesai])->get();
         } else {
@@ -195,15 +199,38 @@ class LaporanKeuanganController extends Controller
     }
 
     public function filter(Request $request){
-        $laporan_mulai = date('Y-m-d', strtotime($request->tgl_mulai));
-        $laporan_selesai = date('Y-m-d', strtotime($request->tgl_selesai));
+        // $laporan_mulai = date('Y-m-d', strtotime($request->tgl_mulai));
+        // $laporan_selesai = date('Y-m-d', strtotime($request->tgl_selesai));
+
+        // $request->session()->flash('laporan_mulai', $laporan_mulai);
+        // $request->session()->flash('laporan_selesai', $laporan_selesai);
+
+        // return redirect()->route('laporan-keuangan.index')->with([
+        //     'laporan_mulai' => $laporan_mulai,
+        //     'laporan_selesai' => $laporan_selesai,
+        // ]);
+
+        if ($request->tgl_mulai) {
+            $laporan_mulai = date('Y-m-d', strtotime($request->tgl_mulai));
+        } else {
+            $laporan_mulai = null;
+        }
+
+        if ($request->tgl_selesai) {
+            $laporan_selesai = date('Y-m-d', strtotime($request->tgl_selesai));
+        } else {
+            $laporan_selesai = null;
+        }
 
         $request->session()->flash('laporan_mulai', $laporan_mulai);
         $request->session()->flash('laporan_selesai', $laporan_selesai);
-
-        return redirect()->route('laporan-keuangan.index')->with([
-            'laporan_mulai' => $laporan_mulai,
-            'laporan_selesai' => $laporan_selesai,
-        ]);
+        
+        return redirect()->route('laporan-keuangan.index');
     }
+
+    public function export(Request $request)
+	{
+        $request->session()->reflash();
+		return Excel::download(new KeuanganExport($request), 'laporan_keuangan.xlsx');
+	}
 }

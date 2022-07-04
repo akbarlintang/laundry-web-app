@@ -5,11 +5,21 @@
   <div class="row w-100">
     <div class="col-lg-4 mx-auto">
       <div class="auto-form-wrapper py-5">
+
+        {{-- Jika ada error saat login --}}
         @if (session()->has('errors'))
           <div class="alert alert-danger">
             {{ session('errors')->first('salah') }}
           </div>
         @endif
+
+        {{-- Jika user telah logout --}}
+        @if(session('logout'))
+          <div class="alert alert-danger" role="alert">
+            Akun anda telah berhasil logout!
+          </div>
+        @endif
+
         <form method="POST" action="{{ route('login.custom') }}">
           {{ csrf_field() }}
           {{-- <div class="text-center my-5">
@@ -18,7 +28,7 @@
           <div class="form-group">
             <label class="label">Username</label>
             <div class="input-group">
-              <input type="text" class="form-control" name="username" placeholder="Username">
+              <input type="text" class="form-control" name="username" placeholder="Username" required>
               <div class="input-group-append">
                 <span class="input-group-text">
                   <i class="mdi mdi-check-circle-outline"></i>
@@ -29,7 +39,7 @@
           <div class="form-group">
             <label class="label">Password</label>
             <div class="input-group">
-              <input type="password" class="form-control" name="password" placeholder="*********">
+              <input type="password" class="form-control" name="password" placeholder="*********" required>
               <div class="input-group-append">
                 <span class="input-group-text">
                   <i class="mdi mdi-check-circle-outline"></i>

@@ -40,9 +40,11 @@ class LoginController extends Controller
         return redirect("admin/login")->withErrors('You are not allowed to access');
     }
 
-    public function logout() {
+    public function logout(Request $request) {
         Session::flush();
         Auth::logout();
+
+        $request->session()->flash('logout', true);
 
         return Redirect('admin/login');
     }
