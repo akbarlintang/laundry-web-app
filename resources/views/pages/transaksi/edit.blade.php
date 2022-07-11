@@ -107,6 +107,37 @@
           </div>
         </div>
 
+        <div class="form-group row">
+          <label for="ket" class="col-sm-3 col-form-label">Keterangan</label>
+          <div class="col-sm-9">
+            <textarea class="form-control" name="ket" id="ket" v-model="form.ket" placeholder="Keterangan transaksi"></textarea>
+          </div>
+        </div>
+
+        <h4 class="text-center mt-5 mb-3">Jenis Cucian</h4>
+
+        <div v-for="(key, index) in form.jenis" :key="`formJenis-${index}`">
+          <div class="form-group row">
+            <label for="jenis_id" class="col-sm-3 col-form-label">Jenis</label>
+            <div class="col-sm-7">
+              <select name="jenis_id[]" id="jenis_id" class="form-control custom-select" v-model="key.jenis_id" required>
+                <option value="" hidden disabled>Pilih Jenis Cucian</option>
+                <option v-for="jns in jenis" :value="jns.id">@{{ jns.nama }}</option>
+              </select>
+            </div>
+            <div class="col-lg-2 align-middle">
+              <span class="btn btn-success btn-sm" @click="addJenisField(key, form.jenis)">Tambah</span>
+              <span class="btn btn-danger btn-sm" @click="removeField(index, form.jenis)" v-show="form.jenis.length > 1">Hapus</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="jumlah" class="col-sm-3 col-form-label">Jumlah</label>
+            <div class="col-sm-7 input-group">
+              <input type="number" class="form-control" name="jumlah[]" id="jumlah" v-model="key.jumlah" placeholder="Masukkan total jumlah transaksi" required>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group row mt-5">
           <div class="col-sm-5 text-left">
             <div>
@@ -145,9 +176,12 @@
         berat: '',
         total: 0,
         file: '',
+        jenis: [],
+        ket: '',
       },
       pelanggan: @json($pelanggan),
-      paket: @json($paket)
+      paket: @json($paket),
+      jenis: @json($jenis)
     },
     mounted() {
       var today = new Date();
@@ -163,10 +197,18 @@
       this.form.paket_id = this.transaksi.paket_id;
       this.form.berat = this.transaksi.berat;
       this.form.total = this.transaksi.total;
+      this.form.ket = this.transaksi.keterangan;
 
       this.form.file = [{
         val: '',
       }];
+
+      this.transaksi.jenis.forEach(element => {
+        this.form.jenis.push({
+          jenis_id: element.id,
+          jumlah: element.jumlah,
+        });
+      });
 
       $('#pelanggan_id').val(this.form.pelanggan_id);
       $('#pelanggan_id').select2({

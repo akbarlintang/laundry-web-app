@@ -13,9 +13,13 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    public function index() {
+    public function index(Request $request) {
         $user = Karyawan::whereId(auth()->user()->id)->first();
-        $currentMonth = date('m');
+
+        $currentMonth = $request->session()->has('bulan') ? session('bulan') : date('m');
+        // $currentMonth = date('m');
+
+        // return $currentMonth;
 
         // Total transaksi
         $transaksi = Transaksi::all();
@@ -71,6 +75,14 @@ class DashboardController extends Controller
 
         // return $label;
 
-        return view('dashboard', compact('user', 'transaksi', 'totalTransaksi', 'pegawai', 'pemasukan', 'pengeluaran', 'label', 'data', 'label_klr', 'data_klr'));
+        return view('dashboard', compact('user', 'transaksi', 'totalTransaksi', 'pegawai', 'pemasukan', 'pengeluaran', 'label', 'data', 'label_klr', 'data_klr', 'currentMonth'));
+    }
+
+    public function filter(Request $request){
+        $bulan = $request->bulan;
+
+        $request->session()->flash('bulan', $bulan);
+
+        return redirect()->route('dashboard.index');
     }
 }

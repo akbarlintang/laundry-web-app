@@ -27,6 +27,7 @@ Route::group(['prefix' => 'admin'], function(){
 
     Route::group(['middleware' => ['auth:web']], function(){
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
+        Route::post('/dashboard/filter', 'DashboardController@filter')->name('dashboard.filter');
 
         // Transaksi
         Route::get('/transaksi', 'TransaksiController@index')->name('transaksi.index');

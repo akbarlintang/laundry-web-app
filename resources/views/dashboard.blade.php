@@ -84,6 +84,34 @@
   </div>
 </div>
 
+<div class="my-3">
+  <form action="{{ route('dashboard.filter') }}" method="post" class="row">
+    {{ csrf_field() }}
+    <div class="col-1 my-auto">
+      Bulan Aktif
+    </div>
+    <div class="col-2">
+      <select name="bulan" id="bulan" class="form-control">
+        <option value="1" {{ $currentMonth == 1 ? 'selected' : '' }}>Januari</option>
+        <option value="2" {{ $currentMonth == 2 ? 'selected' : '' }}>Februari</option>
+        <option value="3" {{ $currentMonth == 3 ? 'selected' : '' }}>Maret</option>
+        <option value="4" {{ $currentMonth == 4 ? 'selected' : '' }}>April</option>
+        <option value="5" {{ $currentMonth == 5 ? 'selected' : '' }}>Mei</option>
+        <option value="6" {{ $currentMonth == 6 ? 'selected' : '' }}>Juni</option>
+        <option value="7" {{ $currentMonth == 7 ? 'selected' : '' }}>Juli</option>
+        <option value="8" {{ $currentMonth == 8 ? 'selected' : '' }}>Agustus</option>
+        <option value="9" {{ $currentMonth == 9 ? 'selected' : '' }}>September</option>
+        <option value="10" {{ $currentMonth == 10 ? 'selected' : '' }}>Oktober</option>
+        <option value="11" {{ $currentMonth == 11 ? 'selected' : '' }}>November</option>
+        <option value="12" {{ $currentMonth == 12 ? 'selected' : '' }}>Desember</option>
+      </select>
+    </div>
+    <div class="col-2">
+      <button type="submit" class="btn btn-success">Ubah</button>
+    </div>
+  </form>
+</div>
+
 {{-- Chart pemasukan --}}
 <div class="row mb-3">
   <div class="col-md-12">

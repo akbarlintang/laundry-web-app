@@ -92,6 +92,12 @@
             </div>
           </div>
         </div>
+        <div class="form-group row">
+          <label for="ket" class="col-sm-3 col-form-label">Keterangan</label>
+          <div class="col-sm-9">
+            <textarea class="form-control" name="ket" id="ket" v-model="form.ket" placeholder="Keterangan transaksi"></textarea>
+          </div>
+        </div>
 
         <h4 class="text-center mt-5 mb-3">Jenis Cucian</h4>
 
@@ -156,6 +162,7 @@
         total: 0,
         file: '',
         jenis: '',
+        ket: '',
       },
       pelanggan: @json($pelanggan),
       paket: @json($paket),
@@ -218,9 +225,11 @@
           confirmButtonColor: '#ff4444',
           confirmButtonText: 'Ya',
           cancelButtonText: 'Tidak',
-        }).then((confirm) => {
-          if (confirm) {
+        }).then(function(result){
+          if(result.value){
             form.submit();
+          }else if(result.dismiss == 'cancel'){
+
           }
         });
 

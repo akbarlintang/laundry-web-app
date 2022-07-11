@@ -76,6 +76,7 @@ class TransaksiController extends Controller
             'total' => $request->total,
             'pembayaran' => 'belum-lunas',
             'foto' => json_encode($files),
+            'keterangan' => $request->ket,
         ]);
 
         HistoryTransaksi::create([
@@ -92,14 +93,16 @@ class TransaksiController extends Controller
         $pelanggan = Pelanggan::get();
         $paket = Paket::get();
         $transaksi = Transaksi::get();
+        $jenis = JenisCucian::get();
         $last = Transaksi::orderBy('id', 'DESC')->first();
         $last_id = $last ? $last->id : '1';
         $data = Transaksi::whereId($id)->first();
         $data->tgl_order = date('d F Y', strtotime($data->tgl_order));
         $data->tgl_selesai = date('d F Y', strtotime($data->tgl_selesai));
         $data->foto = json_decode($data->foto);
+        $data->jenis = json_decode($data->jenis);
 
-        return view('pages.transaksi.edit', compact('transaksi', 'pelanggan', 'paket', 'last_id', 'data'));
+        return view('pages.transaksi.edit', compact('transaksi', 'pelanggan', 'paket', 'last_id', 'data', 'jenis'));
     }
 
     public function update(Request $request, $id) {
@@ -126,15 +129,33 @@ class TransaksiController extends Controller
             }
         }
 
+        $jenis = [];
+        foreach ($request->jenis_id as $index => $jns) {
+            $nama_jns = JenisCucian::whereId($jns)->first()->nama;
+            $temp = [
+                'id' => $jns,
+                'nama' => $nama_jns,
+            ];
+
+            foreach ($request->jumlah as $key => $jml) {
+                if ($key == $index) {
+                    $temp['jumlah'] = $jml;
+                }
+            }
+            array_push($jenis, $temp);
+        }
+
         Transaksi::whereId($id)->update([
             'no_invoice' => $request->invoice,
             'tgl_order' => date('Y-m-d', strtotime($request->tgl_order)),
             'tgl_selesai' => date('Y-m-d', strtotime($request->tgl_selesai)),
             'pelanggan_id' => $request->pelanggan_id,
             'paket_id' => $request->paket_id,
+            'jenis' => json_encode($jenis),
             'berat' => $request->berat,
             'total' => $request->total,
             'foto' => json_encode($files),
+            'keterangan' => $request->ket,
         ]);
 
         $request->session()->flash('update', true);
