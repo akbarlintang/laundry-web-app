@@ -53,6 +53,7 @@
             <th class="text-center">Paket</th>
             <th class="text-center">Berat</th>
             <th class="text-center">Total</th>
+            <th class="text-center">Keterangan</th>
             <th class="text-center">Status</th>
             <th class="text-center">Pembayaran</th>
             <th class="text-center">Foto</th>
@@ -191,6 +192,7 @@
             { data: 'paket', className: 'text-center' },
             { data: 'berat', className: 'text-center' },
             { data: 'total', className: 'text-right' },
+            { data: 'keterangan', className: 'text-center' },
             { data: 'status', className: 'text-center' },
             { data: 'pembayaran', className: 'text-center' },
             { data: 'foto', className: 'text-center' },
