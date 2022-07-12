@@ -46,6 +46,7 @@
       <table id="datatable" class="table table-hoverable table-bordered table-striped">
         <thead>
           <tr>
+            <th class="text-center">No.</th>
             <th class="text-center">No. Invoice</th>
             <th class="text-center">Pelanggan</th>
             <th class="text-center">Tanggal Order</th>
@@ -185,6 +186,7 @@
           // "order": [[ 2, "desc" ]],
           lengthMenu: [[10, 50, 100, 1000, -1], [10, 50, 100, 1000, "Semua"]],
           columns: [
+            { data: 'DT_RowIndex', searchable: false, orderable: false, className: 'text-center' },
             { data: 'no_invoice', className: 'text-center' },
             { data: 'pelanggan' },
             { data: 'tgl_order', className: 'text-center' },
